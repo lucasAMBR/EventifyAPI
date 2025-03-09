@@ -13,8 +13,10 @@ import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
 @Service
 public class AuthService {
 
+    // lista com todas as instancias de item de historico de login
     private static List<LoginHistory> loginHistoryList = new ArrayList<>();
 
+    // Realiza o login, retorna User e adiciona historico
     public User loginNormalUser(LoginNormalUserDTO userCredentials, String ip){
         
         for(User user : UserService.userList){
@@ -32,6 +34,7 @@ public class AuthService {
         throw new RuntimeException("Usuario nao encontrado");
     }
 
+    // Retorna historico de um usuario
     public List<LoginHistory> getLoginHistorybyUserId(int id){
         List<LoginHistory> history = new ArrayList<>();
 

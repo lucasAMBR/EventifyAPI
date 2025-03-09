@@ -14,8 +14,10 @@ import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 @Service
 public class UserService {
 
+    // Lista que armazena todos os usuarios do sistema, normais e organizadores
     public static List<User> userList = new ArrayList<>();
 
+    // Cadastra usuario normal
     public NormalUser RegisterNormalUser(RegisterNormalUserDTO user){
 
         NormalUser newUser = new NormalUser(
@@ -37,6 +39,7 @@ public class UserService {
         return newUser;
     }
 
+    // Retorna lista de usuarios
     public List<User> viewUserList(){
         List<User> newList = new ArrayList<>();
 

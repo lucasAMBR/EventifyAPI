@@ -22,6 +22,7 @@ public class UserController {
     UserService userService;
 
 
+    // Cria um user normal
     @PostMapping("/register-normal")
     public ResponseEntity<NormalUser> RegisterNormalUser(RegisterNormalUserDTO user){
         NormalUser newUser = userService.RegisterNormalUser(user);
@@ -29,6 +30,7 @@ public class UserController {
         return ResponseEntity.ok().body(newUser);
     }
 
+    // Lista todos os usuarios cadastrados (Apenas para fins de desenvolvimentp, remover quando tiver tudo pronto)
    @GetMapping("/lista")
     public ResponseEntity<List<User>> ListUsers(){
         List<User> userList = userService.viewUserList();

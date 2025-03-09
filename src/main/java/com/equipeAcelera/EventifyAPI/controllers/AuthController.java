@@ -24,6 +24,7 @@ public class AuthController {
     @Autowired
     AuthService authService;
     
+    // Realiza o login, retorna um objeto User e captura o ip e adiciona um item no historico de login da conta
     @PostMapping("/login")
     public ResponseEntity<User> Login(LoginNormalUserDTO userCredentials, HttpServletRequest request){
         
@@ -37,7 +38,7 @@ public class AuthController {
         return ResponseEntity.ok().body(user);
     }
 
-
+    // Puxa o historico de logins da conta pelo ID dela
     @GetMapping("/history/{id}")
     public ResponseEntity<List<LoginHistory>> getLoginHistoryByUserId(@PathVariable int id){
         List<LoginHistory> history = authService.getLoginHistorybyUserId(id);
