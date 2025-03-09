@@ -15,11 +15,12 @@ import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.services.UserService;
 
 @RestController
-@RequestMapping("/api")
-public class TestController {
-    
+@RequestMapping("/api/user")
+public class UserController {
+
     @Autowired
     UserService userService;
+
 
     @PostMapping("/register-normal")
     public ResponseEntity<NormalUser> RegisterNormalUser(RegisterNormalUserDTO user){
@@ -28,11 +29,11 @@ public class TestController {
         return ResponseEntity.ok().body(newUser);
     }
 
-    @GetMapping("/lista")
+   @GetMapping("/lista")
     public ResponseEntity<List<User>> ListUsers(){
         List<User> userList = userService.viewUserList();
 
         return ResponseEntity.ok().body(userList);
     }
-
+ 
 }
