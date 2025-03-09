@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterNormalUserDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterOrganizerUserDTO;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
+import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.services.UserService;
 
@@ -26,6 +28,13 @@ public class UserController {
     @PostMapping("/register-normal")
     public ResponseEntity<NormalUser> RegisterNormalUser(RegisterNormalUserDTO user){
         NormalUser newUser = userService.RegisterNormalUser(user);
+        
+        return ResponseEntity.ok().body(newUser);
+    }
+
+    @PostMapping("/register-organizer")
+    public ResponseEntity<OrganizerUser> RegisterOrganizerUser(RegisterOrganizerUserDTO user){
+        OrganizerUser newUser = userService.RegisterOganizerUser(user);
         
         return ResponseEntity.ok().body(newUser);
     }
