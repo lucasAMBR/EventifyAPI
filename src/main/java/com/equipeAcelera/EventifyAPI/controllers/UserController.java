@@ -32,6 +32,7 @@ public class UserController {
         return ResponseEntity.ok().body(newUser);
     }
 
+    // Cria um usuario organizador
     @PostMapping("/register-organizer")
     public ResponseEntity<OrganizerUser> RegisterOrganizerUser(RegisterOrganizerUserDTO user){
         OrganizerUser newUser = userService.RegisterOganizerUser(user);

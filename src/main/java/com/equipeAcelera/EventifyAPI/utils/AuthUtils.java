@@ -13,4 +13,13 @@ public class AuthUtils {
         }
         return false;
     }
+
+    public static boolean verifyExistentUserById(List<User> userList, int id){
+        for(User user : userList){
+            if(user.getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
 }

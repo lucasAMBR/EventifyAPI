@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,6 +20,17 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    // Caso Usuario nao seja encontrado
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex){
+        ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            HttpStatus.NOT_FOUND.value()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     // Trata erros genericos (nao tratados)
