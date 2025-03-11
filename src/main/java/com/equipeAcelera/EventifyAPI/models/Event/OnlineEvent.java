@@ -10,8 +10,8 @@ public class OnlineEvent extends Event {
     private String link;
 
     public OnlineEvent(int id, String title, String description, LocalDate date, LocalTime hour, String type,
-            int guestLimit, List<Subscription> subscriptionList, String imagePath, boolean isActive, String link) {
-        super(id, title, description, date, hour, type, guestLimit, subscriptionList, imagePath, isActive);
+            int guestLimit, int organizerId, List<Subscription> subscriptionList, String imagePath, boolean isActive, String link) {
+        super(id, title, description, date, hour, type, guestLimit, organizerId, subscriptionList, imagePath, isActive);
         this.link = link;
     }
 

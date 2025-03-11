@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.equipeAcelera.EventifyAPI.models.Like.Like;
-
 public class CreatePostDTO {
     private int userId;
     private String content;

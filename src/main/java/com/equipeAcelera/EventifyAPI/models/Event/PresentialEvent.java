@@ -1,11 +1,22 @@
 package com.equipeAcelera.EventifyAPI.models.Event;
 
-public class PresentialEvent {
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
+
+public class PresentialEvent extends Event {
     private String location;
     private double latitude;
     private double longitude;
     
-    public PresentialEvent(String location, double latitude, double longitude) {
+    
+
+    public PresentialEvent(int id, String title, String description, LocalDate date, LocalTime hour, String type,
+            int guestLimit, int organizerId, List<Subscription> subscriptionList, String imagePath, boolean isActive,
+            String location, double latitude, double longitude) {
+        super(id, title, description, date, hour, type, guestLimit, organizerId, subscriptionList, imagePath, isActive);
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;

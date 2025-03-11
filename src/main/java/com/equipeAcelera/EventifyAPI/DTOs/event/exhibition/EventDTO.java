@@ -1,12 +1,12 @@
-package com.equipeAcelera.EventifyAPI.models.Event;
+package com.equipeAcelera.EventifyAPI.DTOs.event.exhibition;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
+import com.equipeAcelera.EventifyAPI.DTOs.subscription.exhibition.SubscriptionDTO;
 
-public class Event {
+public class EventDTO {
     protected int id;
     protected String title;
     protected String description;
@@ -14,13 +14,12 @@ public class Event {
     protected LocalTime hour;
     protected String type;
     protected int guestLimit;
-    protected int organizerId;
-    protected List<Subscription> subscriptionList;
+    protected List<SubscriptionDTO> subscription;
+    protected String organizerName;
     protected String imagePath;
-    protected boolean isActive;
-    
-    public Event(int id, String title, String description, LocalDate date, LocalTime hour, String type, int guestLimit, int organizerId,
-            List<Subscription> subscriptionList, String imagePath, boolean isActive) {
+
+    public EventDTO(int id, String title, String description, LocalDate date, LocalTime hour, String type,
+            int guestLimit, List<SubscriptionDTO> subscription, String organizerName, String imagePath) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -28,10 +27,9 @@ public class Event {
         this.hour = hour;
         this.type = type;
         this.guestLimit = guestLimit;
-        this.organizerId = organizerId;
-        this.subscriptionList = subscriptionList;
+        this.subscription = subscription;
+        this.organizerName = organizerName;
         this.imagePath = imagePath;
-        this.isActive = isActive;
     }
 
     public int getId() {
@@ -90,20 +88,20 @@ public class Event {
         this.guestLimit = guestLimit;
     }
 
-    public int getOrganizerId() {
-        return organizerId;
+    public List<SubscriptionDTO> getSubscription() {
+        return subscription;
     }
 
-    public void setOrganizerId(int organizerId) {
-        this.organizerId = organizerId;
+    public void setSubscription(List<SubscriptionDTO> subscription) {
+        this.subscription = subscription;
     }
 
-    public List<Subscription> getSubscriptionList() {
-        return subscriptionList;
+    public String getOrganizerName() {
+        return organizerName;
     }
 
-    public void setSubscriptionList(List<Subscription> subscriptionList) {
-        this.subscriptionList = subscriptionList;
+    public void setOrganizerName(String organizerName) {
+        this.organizerName = organizerName;
     }
 
     public String getImagePath() {
@@ -113,14 +111,6 @@ public class Event {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }  
 
     
 }
