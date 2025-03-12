@@ -11,6 +11,7 @@ import com.equipeAcelera.EventifyAPI.models.Event.Event;
 public class EventService {
     private static List<Event> eventList = new ArrayList<>();
 
+    //Lista todos os eventos no sistema
     public List<Event> getEventList(){
         List<Event> allEventsList = new ArrayList<>();
 

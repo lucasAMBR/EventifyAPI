@@ -1,9 +1,12 @@
 package com.equipeAcelera.EventifyAPI.models.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
     protected int id;
     protected String name;
     protected String email;
+    @JsonIgnore
     protected String password;
     protected String profilePicPath;
     
