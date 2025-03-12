@@ -47,6 +47,7 @@ public class UserService {
         return newUser;
     }
 
+    //Cadastra um organizador
     public OrganizerUser RegisterOganizerUser(RegisterOrganizerUserDTO user){
         
         if(AuthUtils.verifyExistentUser(userList, user.getEmail())){

@@ -19,6 +19,7 @@ public class PostService {
 
     private static List<Post> postList = new ArrayList<>();
 
+    //Cria uma postagem
     public Post CreateNewPost(CreatePostDTO postData){
 
         if(!AuthUtils.verifyExistentUserById(userService.viewUserList(), postData.getUserId())){

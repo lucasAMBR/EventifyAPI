@@ -1,43 +1,30 @@
-package com.equipeAcelera.EventifyAPI.DTOs.event.exhibition;
+package com.equipeAcelera.EventifyAPI.DTOs.event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
-import com.equipeAcelera.EventifyAPI.DTOs.subscription.exhibition.SubscriptionDTO;
-
-public class EventDTO {
-    protected int id;
+public class CreatePresentialEventDTO {
     protected String title;
     protected String description;
     protected LocalDate date;
     protected LocalTime hour;
     protected String type;
     protected int guestLimit;
-    protected List<SubscriptionDTO> subscription;
-    protected String organizerName;
+    protected int organizerId;
     protected String imagePath;
-
-    public EventDTO(int id, String title, String description, LocalDate date, LocalTime hour, String type,
-            int guestLimit, List<SubscriptionDTO> subscription, String organizerName, String imagePath) {
-        this.id = id;
+    protected String location;
+    
+    public CreatePresentialEventDTO(String title, String description, LocalDate date, LocalTime hour, String type,
+            int guestLimit, int organizerId, String imagePath, String location) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.hour = hour;
         this.type = type;
         this.guestLimit = guestLimit;
-        this.subscription = subscription;
-        this.organizerName = organizerName;
+        this.organizerId = organizerId;
         this.imagePath = imagePath;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.location = location;
     }
 
     public String getTitle() {
@@ -88,20 +75,12 @@ public class EventDTO {
         this.guestLimit = guestLimit;
     }
 
-    public List<SubscriptionDTO> getSubscription() {
-        return subscription;
+    public int getOrganizerId() {
+        return organizerId;
     }
 
-    public void setSubscription(List<SubscriptionDTO> subscription) {
-        this.subscription = subscription;
-    }
-
-    public String getOrganizerName() {
-        return organizerName;
-    }
-
-    public void setOrganizerName(String organizerName) {
-        this.organizerName = organizerName;
+    public void setOrganizerId(int organizerId) {
+        this.organizerId = organizerId;
     }
 
     public String getImagePath() {
@@ -110,6 +89,14 @@ public class EventDTO {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     

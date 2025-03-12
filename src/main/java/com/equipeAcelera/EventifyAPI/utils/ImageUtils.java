@@ -50,7 +50,7 @@ public class ImageUtils {
                 String fileName = timestamp +"_"+ image.getOriginalFilename().replaceAll("\\s+", "");
                 Path filePath = Paths.get(uploadDir + fileName);
                 Files.write(filePath, image.getBytes());
-                String photoUrl = "/uploads/profile_pic/" + fileName;
+                String photoUrl = "/uploads/post_images/" + fileName;
                 
                 postPicsPaths.add(photoUrl);
             } catch (IOException e) {
