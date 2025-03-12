@@ -7,18 +7,20 @@ import com.equipeAcelera.EventifyAPI.models.Like.Like;
 public class Post {
     protected int id;
     protected int userId;
+    protected String userName;
     protected String content;
     protected List<String> imagesPath;
     protected List<Like> likeList;
     
-    public Post(int id, int userId, String content, List<String> imagesPath, List<Like> likeList) {
+    public Post(int id, int userId, String userName, String content, List<String> imagesPath, List<Like> likeList) {
         this.id = id;
         this.userId = userId;
+        this.userName = userName;
         this.content = content;
         this.imagesPath = imagesPath;
         this.likeList = likeList;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -48,6 +50,14 @@ public class Post {
     }
     public void setLikeList(List<Like> likeList) {
         this.likeList = likeList;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     

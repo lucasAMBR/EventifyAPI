@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
+import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
@@ -26,9 +27,12 @@ public class PostService {
             throw new RuntimeException("User doesn't exist");
         }
 
+        User findedUser = userService.findUserById(postData.getUserId());
+
         Post newPost = new Post(
             postList.size() + 1, 
             postData.getUserId(), 
+            findedUser.getName(),
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 
             new ArrayList<>()

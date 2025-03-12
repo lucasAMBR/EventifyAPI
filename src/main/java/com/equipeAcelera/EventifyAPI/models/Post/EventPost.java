@@ -7,8 +7,8 @@ import com.equipeAcelera.EventifyAPI.models.Like.Like;
 public class EventPost extends Post {
     private int eventId;
 
-    public EventPost(int id, int userId, String content, List<String> imagesPath, List<Like> likeList, int eventId) {
-        super(id, userId, content, imagesPath, likeList);
+    public EventPost(int id, int userId, String userName, String content, List<String> imagesPath, List<Like> likeList, int eventId) {
+        super(id, userId, userName, content, imagesPath, likeList);
         this.eventId = eventId;
     }
 

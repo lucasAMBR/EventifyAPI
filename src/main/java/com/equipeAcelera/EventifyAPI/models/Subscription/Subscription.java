@@ -5,16 +5,20 @@ package com.equipeAcelera.EventifyAPI.models.Subscription;
 public class Subscription {
     private int id;
     private int userId;
+    private String userName;
     private int eventId;
+    private String eventTitle;
     private String status;
     
-    public Subscription(int id, int userId, int eventId, String status) {
+    public Subscription(int id, int userId, String userName, int eventId, String eventTitle, String status) {
         this.id = id;
         this.userId = userId;
+        this.userName = userName;
         this.eventId = eventId;
+        this.eventTitle = eventTitle;
         this.status = status;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -45,6 +49,22 @@ public class Subscription {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEventTitle() {
+        return eventTitle;
+    }
+
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
     }
     
 }

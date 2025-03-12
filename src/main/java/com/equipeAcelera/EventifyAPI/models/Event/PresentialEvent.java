@@ -14,9 +14,9 @@ public class PresentialEvent extends Event {
     
 
     public PresentialEvent(int id, String title, String description, LocalDate date, LocalTime hour, String type,
-            int guestLimit, int organizerId, List<Subscription> subscriptionList, String imagePath, boolean isActive,
+            int guestLimit, int organizerId, String organizerName, List<Subscription> subscriptionList, String imagePath, boolean isActive,
             String location, double latitude, double longitude) {
-        super(id, title, description, date, hour, type, guestLimit, organizerId, subscriptionList, imagePath, isActive);
+        super(id, title, description, date, hour, type, guestLimit, organizerId, organizerName, subscriptionList, imagePath, isActive);
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;

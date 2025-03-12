@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterOrganizerUserDTO;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidPasswordException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -23,6 +25,10 @@ public class UserService {
 
     // Cadastra usuario normal
     public NormalUser RegisterNormalUser(RegisterNormalUserDTO user){
+
+        if(user.getPassword().length() < 6){
+            throw new InvalidPasswordException("Invalid password, minimum: 6 chars");
+        }
 
         if(AuthUtils.verifyExistentUser(userList, user.getEmail())){
             throw new UserAlreadyExistException("This email is already in use!");
@@ -43,6 +49,8 @@ public class UserService {
         );
 
         userList.add(newUser);
+
+        //! Inserir aqui a função para enviar o email de boas vindas
 
         return newUser;
     }
@@ -71,6 +79,16 @@ public class UserService {
             userList.add(newOrganizer);
 
             return newOrganizer;
+    }
+
+    // Acha um usuario pelo Id
+    public User findUserById(int id){
+        for(User user : userList){
+            if(user.getId() == id){
+                return user;
+            }
+        }
+        throw new UserNotFoundException("User not found, invalid id!");
     }
 
     // Retorna lista de usuarios

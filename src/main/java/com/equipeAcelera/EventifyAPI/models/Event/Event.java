@@ -15,11 +15,12 @@ public class Event {
     protected String type;
     protected int guestLimit;
     protected int organizerId;
+    protected String organizerName;
     protected List<Subscription> subscriptionList;
     protected String imagePath;
     protected boolean isActive;
     
-    public Event(int id, String title, String description, LocalDate date, LocalTime hour, String type, int guestLimit, int organizerId,
+    public Event(int id, String title, String description, LocalDate date, LocalTime hour, String type, int guestLimit, int organizerId, String organizerName,
             List<Subscription> subscriptionList, String imagePath, boolean isActive) {
         this.id = id;
         this.title = title;
@@ -29,6 +30,7 @@ public class Event {
         this.type = type;
         this.guestLimit = guestLimit;
         this.organizerId = organizerId;
+        this.organizerName = organizerName;
         this.subscriptionList = subscriptionList;
         this.imagePath = imagePath;
         this.isActive = isActive;
