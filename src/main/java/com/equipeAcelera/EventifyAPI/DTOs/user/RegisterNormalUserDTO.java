@@ -7,18 +7,21 @@ import org.springframework.web.multipart.MultipartFile;
 public class RegisterNormalUserDTO {
     private String name;
     private String email;
+    private String cpf;
     private String password;
     private MultipartFile profilePic;
     private LocalDate birth;
     
-    public RegisterNormalUserDTO(String name, String email, String password, MultipartFile profilePic,
+    public RegisterNormalUserDTO(String name, String email, String cpf, String password, MultipartFile profilePic,
             LocalDate birth) {
         this.name = name;
         this.email = email;
+        this.cpf = cpf;
         this.password = password;
         this.profilePic = profilePic;
         this.birth = birth;
     }
+    
     public String getName() {
         return name;
     }
@@ -48,6 +51,14 @@ public class RegisterNormalUserDTO {
     }
     public void setBirth(LocalDate birth) {
         this.birth = birth;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     

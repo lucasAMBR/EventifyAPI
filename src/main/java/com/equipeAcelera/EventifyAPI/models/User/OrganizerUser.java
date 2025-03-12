@@ -15,10 +15,10 @@ public class OrganizerUser extends User{
     private List<User> followers;
 
     
-    public OrganizerUser(int id, String name, String email, String password, String profilePicPath, String contact,
+    public OrganizerUser(int id, String name, String cpf, String email, String password, String profilePicPath, String contact,
             List<Post> postList, List<Event> eventList, List<Like> likeList, List<User> following,
             List<User> followers) {
-        super(id, name, email, password, profilePicPath);
+        super(id, name, cpf, email, password, profilePicPath);
         this.contact = contact;
         this.postList = postList;
         this.eventList = eventList;

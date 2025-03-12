@@ -17,9 +17,9 @@ public class NormalUser extends User{
 
     
 
-    public NormalUser(int id, String name, String email, String password, String profilePicPath, LocalDate birth,
+    public NormalUser(int id, String name, String cpf, String email, String password, String profilePicPath, LocalDate birth,
             List<Post> postList, List<Like> likeList, List<User> following, List<User> followers, List<Subscription> subscriptions) {
-        super(id, name, email, password, profilePicPath);
+        super(id, name, cpf, email, password, profilePicPath);
         this.birth = birth;
         this.postList = postList;
         this.likeList = likeList;

@@ -36,7 +36,8 @@ public class UserService {
 
         NormalUser newUser = new NormalUser(
             userList.size() + 1, 
-            user.getName(), 
+            user.getName(),
+            user.getCpf(), 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
             ImageUtils.saveProfilePic(user.getProfilePic()),
@@ -64,7 +65,8 @@ public class UserService {
 
         OrganizerUser newOrganizer = new OrganizerUser(
             userList.size() + 1, 
-            user.getName(), 
+            user.getName(),
+            user.getCpf(), 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
             ImageUtils.saveProfilePic(user.getProfilePic()),

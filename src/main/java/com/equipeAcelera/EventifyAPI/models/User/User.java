@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User {
     protected int id;
     protected String name;
+    protected String cpf;
     protected String email;
     @JsonIgnore
     protected String password;
@@ -13,14 +14,15 @@ public class User {
     public User() {
     }
 
-    public User(int id, String name, String email, String password, String profilePicPath) {
+    public User(int id, String name, String cpf, String email, String password, String profilePicPath) {
         this.id = id;
         this.name = name;
+        this.cpf = cpf;
         this.email = email;
         this.password = password;
         this.profilePicPath = profilePicPath;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -59,6 +61,14 @@ public class User {
 
     public void setProfilePicPath(String profilePicPath) {
         this.profilePicPath = profilePicPath;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }  
     
 }
