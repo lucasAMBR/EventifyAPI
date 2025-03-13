@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,14 @@ public class UserController {
         OrganizerUser newUser = userService.RegisterOganizerUser(user);
         
         return ResponseEntity.ok().body(newUser);
+    }
+
+    // Pega os dados de um usuario pelo id
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<User> FindUserById(@PathVariable int id){
+        User findedUser = userService.findUserById(id);
+
+        return ResponseEntity.ok().body(findedUser);
     }
 
     // Lista todos os usuarios cadastrados (Apenas para fins de desenvolvimentp, remover quando tiver tudo pronto)

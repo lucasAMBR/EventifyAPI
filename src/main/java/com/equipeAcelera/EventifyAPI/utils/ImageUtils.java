@@ -60,4 +60,23 @@ public class ImageUtils {
 
         return postPicsPaths;
     }
+
+    public static String saveEventBannerPic(MultipartFile image){
+        try {
+            String uploadDir = "src/main/resources/static/uploads/event_banner/";
+            Files.createDirectories(Paths.get(uploadDir));
+
+            long timestamp = System.currentTimeMillis();
+
+            // Usei um regex para tirar todos os espacos do nome dos arquivos
+            String fileName = timestamp +"_"+ image.getOriginalFilename().replaceAll("\\s+", "");
+            Path filePath = Paths.get(uploadDir + fileName);
+            Files.write(filePath, image.getBytes());
+            String photoUrl = "/uploads/event_banner/" + fileName;
+    
+            return photoUrl;
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar a imagem", e);
+        }       
+    }
 }

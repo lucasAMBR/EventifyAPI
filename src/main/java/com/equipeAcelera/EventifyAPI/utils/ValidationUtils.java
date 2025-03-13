@@ -38,6 +38,11 @@ public class ValidationUtils {
     }
 
     public static boolean validCPF(String cpf){
+        
+        if(cpf.length() < 11){
+            throw new InvalidArgumentException("Invalid CPF!");
+        }
+
         int sum = 0;
         for (int i = 0; i < 9; i++) {
             sum += (cpf.charAt(i) - '0') * (10 - i);

@@ -2,11 +2,13 @@ package com.equipeAcelera.EventifyAPI.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
@@ -38,6 +40,29 @@ public class PostService {
             new ArrayList<>()
         );
         
+        postList.add(newPost);
+
         return newPost;
+    }
+
+    // Acha um post pelo id
+    public Post findPostById(int id){
+        
+        for(Post post : postList){
+            if(post.getId() == id){
+                return post;
+            }
+        }
+        throw new DataNotFoundException("Invalid id, cannot find this post!");
+    }
+
+    // Lista todos os posts no sistema
+    public List<Post> listAllPosts(){
+        
+        List<Post> finalPostList = postList.stream().map(post -> {
+            return post;
+        }).collect(Collectors.toList());
+
+        return finalPostList;
     }
 }

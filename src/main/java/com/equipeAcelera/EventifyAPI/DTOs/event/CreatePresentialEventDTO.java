@@ -3,6 +3,8 @@ package com.equipeAcelera.EventifyAPI.DTOs.event;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class CreatePresentialEventDTO {
     protected String title;
     protected String description;
@@ -11,11 +13,11 @@ public class CreatePresentialEventDTO {
     protected String type;
     protected int guestLimit;
     protected int organizerId;
-    protected String imagePath;
+    protected MultipartFile image;
     protected String location;
     
     public CreatePresentialEventDTO(String title, String description, LocalDate date, LocalTime hour, String type,
-            int guestLimit, int organizerId, String imagePath, String location) {
+            int guestLimit, int organizerId, MultipartFile image, String location) {
         this.title = title;
         this.description = description;
         this.date = date;
@@ -23,7 +25,7 @@ public class CreatePresentialEventDTO {
         this.type = type;
         this.guestLimit = guestLimit;
         this.organizerId = organizerId;
-        this.imagePath = imagePath;
+        this.image = image;
         this.location = location;
     }
 
@@ -83,12 +85,12 @@ public class CreatePresentialEventDTO {
         this.organizerId = organizerId;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setImagePath(MultipartFile image) {
+        this.image = image;
     }
 
     public String getLocation() {
