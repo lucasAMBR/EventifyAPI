@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterOrganizerUserDTO;
-import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidPasswordException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
@@ -15,6 +15,7 @@ import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
 import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
+import com.equipeAcelera.EventifyAPI.utils.CPFUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
 @Service
@@ -27,8 +28,12 @@ public class UserService {
     public NormalUser RegisterNormalUser(RegisterNormalUserDTO user){
 
         if(user.getPassword().length() < 6){
-            throw new InvalidPasswordException("Invalid password, minimum: 6 chars");
+            throw new InvalidArgumentException("Invalid password, minimum: 6 chars");
         }
+
+        String formatedCPF = CPFUtils.formatCPF(user.getCpf());
+
+        CPFUtils.validator.assertValid(formatedCPF);
 
         if(AuthUtils.verifyExistentUser(userList, user.getEmail())){
             throw new UserAlreadyExistException("This email is already in use!");
@@ -37,7 +42,7 @@ public class UserService {
         NormalUser newUser = new NormalUser(
             userList.size() + 1, 
             user.getName(),
-            user.getCpf(), 
+            formatedCPF, 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
             ImageUtils.saveProfilePic(user.getProfilePic()),

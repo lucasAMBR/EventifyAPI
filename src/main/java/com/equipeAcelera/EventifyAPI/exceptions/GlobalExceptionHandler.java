@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidPasswordException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserNotFoundException;
 
@@ -13,9 +13,9 @@ import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserNotFoundE
 public class GlobalExceptionHandler {
     
 
-    //Caso tente cadastrar uma senha invalida
-    @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidPassword(InvalidPasswordException ex){
+    //Caso tente inserir uma informação invalida
+    @ExceptionHandler(InvalidArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPassword(InvalidArgumentException ex){
         ErrorResponse errorResponse = new ErrorResponse(
             ex.getMessage(), 
             HttpStatus.BAD_REQUEST.value()
