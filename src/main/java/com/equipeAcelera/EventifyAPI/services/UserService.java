@@ -15,7 +15,7 @@ import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
 import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
-import com.equipeAcelera.EventifyAPI.utils.CPFUtils;
+import com.equipeAcelera.EventifyAPI.utils.ValidationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
 @Service
@@ -25,15 +25,15 @@ public class UserService {
     public static List<User> userList = new ArrayList<>();
 
     // Cadastra usuario normal
-    public NormalUser RegisterNormalUser(RegisterNormalUserDTO user){
+    public NormalUser RegisterNormalUser(RegisterNormalUserDTO user){ 
+
+        ValidationUtils.verifyEmail(user.getEmail());
 
         if(user.getPassword().length() < 6){
             throw new InvalidArgumentException("Invalid password, minimum: 6 chars");
         }
-
-        String formatedCPF = CPFUtils.formatCPF(user.getCpf());
-
-        CPFUtils.validator.assertValid(formatedCPF);
+        
+        String formatedCPF = ValidationUtils.verifyAndFormatCPF(user.getCpf());
 
         if(AuthUtils.verifyExistentUser(userList, user.getEmail())){
             throw new UserAlreadyExistException("This email is already in use!");
