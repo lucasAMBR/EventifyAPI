@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAcessException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 
@@ -46,6 +47,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    // Caso tente acessar um funcao nao permitida para o tipo de usuario
+    @ExceptionHandler(UnauthorizedFunctionAcessException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedFunctionAcess(UnauthorizedFunctionAcessException ex){
+        ErrorResponse errorResponse = new ErrorResponse(
+            ex.getMessage(),
+            HttpStatus.UNAUTHORIZED.value()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
     // Trata erros genericos (nao tratados)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex){
@@ -56,4 +68,5 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

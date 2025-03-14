@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAcessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
+import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.GeocodingUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
@@ -51,9 +53,13 @@ public class EventService {
         latitudeAndLongitude.get("longitude")
         );
 
-        eventList.add(newEvent);
+        if(eventHost instanceof OrganizerUser){
+            ((OrganizerUser) eventHost).getEventList().add(newEvent);
+            eventList.add(newEvent);
+            return newEvent;
+        }
 
-        return newEvent;
+        throw new UnauthorizedFunctionAcessException("Only Organizers can create a event!");
     }
 
     // Pega um evento pelo id
