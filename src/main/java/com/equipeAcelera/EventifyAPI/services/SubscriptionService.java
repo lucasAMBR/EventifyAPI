@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.subscription.GenerateSubscriptionDTO;
-import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAcessException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
@@ -42,13 +42,13 @@ public class SubscriptionService {
         if(findedEvent.getSubscriptionList().size() < findedEvent.getGuestLimit()){
             findedEvent.getSubscriptionList().add(newSub);
         }else{
-            throw new UnauthorizedFunctionAcessException("Guest limit!");
+            throw new UnauthorizedFunctionAccessException("Guest limit!");
         }
 
         if(findedUser instanceof NormalUser){
             ((NormalUser) findedUser).getSubscriptions().add(newSub);
         }else{
-            throw new UnauthorizedFunctionAcessException("Access not allowed!");
+            throw new UnauthorizedFunctionAccessException("Access not allowed!");
         }
         
         subscriptionList.add(newSub);

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
-import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAcessException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 
@@ -48,8 +48,8 @@ public class GlobalExceptionHandler {
     }
 
     // Caso tente acessar um funcao nao permitida para o tipo de usuario
-    @ExceptionHandler(UnauthorizedFunctionAcessException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorizedFunctionAcess(UnauthorizedFunctionAcessException ex){
+    @ExceptionHandler(UnauthorizedFunctionAccessException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorizedFunctionAcess(UnauthorizedFunctionAccessException ex){
         ErrorResponse errorResponse = new ErrorResponse(
             ex.getMessage(),
             HttpStatus.UNAUTHORIZED.value()

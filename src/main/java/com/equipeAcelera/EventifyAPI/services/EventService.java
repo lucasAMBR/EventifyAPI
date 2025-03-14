@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
-import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAcessException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
@@ -59,7 +59,7 @@ public class EventService {
             return newEvent;
         }
 
-        throw new UnauthorizedFunctionAcessException("Only Organizers can create a event!");
+        throw new UnauthorizedFunctionAccessException("Only Organizers can create a event!");
     }
 
     // Pega um evento pelo id
