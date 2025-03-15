@@ -49,7 +49,7 @@ public class PostService {
         }
 
         if(findedUser instanceof OrganizerUser){
-            ((NormalUser) findedUser).getPostList().add(newPost);
+            ((OrganizerUser) findedUser).getPostList().add(newPost);
         }
 
         return newPost;

@@ -2,6 +2,7 @@ package com.equipeAcelera.EventifyAPI.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +31,12 @@ public class EventController {
         Event newEvent = eventService.createOnlineEvent(eventData);
 
         return ResponseEntity.ok().body(newEvent);
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Event> FindEventById(int id){
+        Event findedEvent = eventService.getEventById(id);
+
+        return ResponseEntity.ok().body(findedEvent);
     }
 }
