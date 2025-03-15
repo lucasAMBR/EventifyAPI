@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class CreatePresentialEventDTO {
+public class CreateOnlineEventDTO {
     private String title;
     private String description;
     private LocalDate date;
@@ -13,10 +13,10 @@ public class CreatePresentialEventDTO {
     private int guestLimit;
     private int organizerId;
     private MultipartFile image;
-    private String location;
+    private String eventLink;
     
-    public CreatePresentialEventDTO(String title, String description, LocalDate date, LocalTime hour,
-            int guestLimit, int organizerId, MultipartFile image, String location) {
+    public CreateOnlineEventDTO(String title, String description, LocalDate date, LocalTime hour, int guestLimit,
+            int organizerId, MultipartFile image, String eventLink) {
         this.title = title;
         this.description = description;
         this.date = date;
@@ -24,7 +24,7 @@ public class CreatePresentialEventDTO {
         this.guestLimit = guestLimit;
         this.organizerId = organizerId;
         this.image = image;
-        this.location = location;
+        this.eventLink = eventLink;
     }
 
     public String getTitle() {
@@ -79,16 +79,16 @@ public class CreatePresentialEventDTO {
         return image;
     }
 
-    public void setImagePath(MultipartFile image) {
+    public void setImage(MultipartFile image) {
         this.image = image;
     }
 
-    public String getLocation() {
-        return location;
+    public String getEventLink() {
+        return eventLink;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setEventLink(String eventLink) {
+        this.eventLink = eventLink;
     }
 
     

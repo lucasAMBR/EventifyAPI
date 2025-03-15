@@ -7,11 +7,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.event.CreateOnlineEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
+import com.equipeAcelera.EventifyAPI.models.Event.OnlineEvent;
 import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
+import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.GeocodingUtils;
@@ -60,6 +63,36 @@ public class EventService {
         }
 
         throw new UnauthorizedFunctionAccessException("Only Organizers can create a event!");
+    }
+
+    public OnlineEvent createOnlineEvent(CreateOnlineEventDTO eventData){
+        
+        User findedUser = userService.findUserById(eventData.getOrganizerId());
+        if(findedUser instanceof NormalUser){
+            throw new UnauthorizedFunctionAccessException("You cannot create a event, only organizers can do it!");
+        }
+
+        OnlineEvent newEvent = new OnlineEvent(
+            eventList.size() + 1, 
+            eventData.getTitle(), 
+            eventData.getDescription(), 
+            eventData.getDate(), 
+            eventData.getHour(), 
+            "ONLINE", 
+            eventData.getGuestLimit(), 
+            eventData.getOrganizerId(), 
+            findedUser.getName(), 
+            new ArrayList<>(), 
+            ImageUtils.saveEventBannerPic(eventData.getImage()),
+            true, 
+            eventData.getEventLink()
+        );
+
+        ((OrganizerUser) findedUser).getEventList().add(newEvent);
+
+        eventList.add(newEvent);
+
+        return newEvent;
     }
 
     // Pega um evento pelo id

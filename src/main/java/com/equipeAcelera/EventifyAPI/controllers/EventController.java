@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equipeAcelera.EventifyAPI.DTOs.event.CreateOnlineEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.services.EventService;
@@ -24,4 +25,10 @@ public class EventController {
         return ResponseEntity.ok().body(newEvent);
     }
 
+    @PostMapping("/create/online")
+    public ResponseEntity<Event> CreateOnlineEvent(CreateOnlineEventDTO eventData){
+        Event newEvent = eventService.createOnlineEvent(eventData);
+
+        return ResponseEntity.ok().body(newEvent);
+    }
 }
