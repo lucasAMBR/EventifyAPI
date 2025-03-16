@@ -2,10 +2,12 @@ package com.equipeAcelera.EventifyAPI.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.like.AddLikeDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
@@ -23,44 +25,42 @@ public class LikeService {
     @Autowired
     PostService postService;
 
-    /*
-        public void addLike(int userId, int postId){
+    public Like addLike(AddLikeDTO likeData){
 
-        User findedUser = userService.findUserById(userId);
+        User findedUser = userService.findUserById(likeData.getUserId());
 
-        Post findedPost = postService.findPostById(postId);
+        Post findedPost = postService.findPostById(likeData.getPostId());
 
-        if(findedUser instanceof NormalUser){
-            for(Like like : likeList){
-                if(like.getUserId() == userId && like.getPostId() == postId){
-                   ((NormalUser) findedUser).getLikeList().remove(FindLikeById(like.getId()));
-                   findedPost.getLikeList().remove(FindLikeById(like.getId()));
+        for(Like like : likeList){
+            if(like.getUserId() == likeData.getUserId() && like.getPostId() == likeData.getPostId()){
 
-                   likeList.remove(like);
+                if(findedUser instanceof NormalUser){
+                    List<Like> newUserLikeList = ((NormalUser) findedUser).getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
 
-                   return;
+                    ((NormalUser)findedUser).setLikeList(newUserLikeList);
                 }
-            }
-        }
 
-        if(findedUser instanceof OrganizerUser){
-            for(Like like : likeList){
-                if(like.getUserId() == userId && like.getPostId() == postId){
-                   ((NormalUser) findedUser).getLikeList().remove(FindLikeById(like.getId()));
-                   findedPost.getLikeList().remove(FindLikeById(like.getId()));
+                if(findedUser instanceof OrganizerUser){
+                    List<Like> newUserLikeList = ((OrganizerUser) findedUser).getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
 
-                   likeList.remove(like);
-
-                   return;
+                    ((OrganizerUser)findedUser).setLikeList(newUserLikeList);
                 }
+
+                List<Like> newPostLikeList = findedPost.getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
+
+                findedPost.setLikeList(newPostLikeList);
+
+                likeList.remove(like);
+
+                return like;
             }
         }
 
         Like newLike = new Like(
             likeList.size() + 1, 
-            userId, 
-            findedUser.getName(), 
-            postId    
+            likeData.getUserId(), 
+            findedUser.getName(),
+            likeData.getPostId()
         );
 
         if(findedUser instanceof NormalUser){
@@ -68,15 +68,14 @@ public class LikeService {
         }
 
         if(findedUser instanceof OrganizerUser){
-            ((NormalUser) findedUser).getLikeList().add(newLike);
+            ((OrganizerUser) findedUser).getLikeList().add(newLike);
         }
 
         findedPost.getLikeList().add(newLike);
 
         likeList.add(newLike);
 
-        return;
-
+        return newLike;
     }
 
     public Like FindLikeById(int id){
@@ -89,5 +88,4 @@ public class LikeService {
         throw new DataNotFoundException("Like not found!");
     }
      
-    */
 }
