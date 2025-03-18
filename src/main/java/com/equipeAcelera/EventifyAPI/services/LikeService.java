@@ -35,14 +35,20 @@ public class LikeService {
             if(like.getUserId() == likeData.getUserId() && like.getPostId() == likeData.getPostId()){
 
                 if(findedUser instanceof NormalUser){
-                    List<Like> newUserLikeList = ((NormalUser) findedUser).getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
+                    List<Like> newUserLikeList = ((NormalUser) findedUser).getLikeList()
+                    .stream()
+                    .filter(likeItem -> likeItem.getPostId() != like.getPostId())
+                    .collect(Collectors.toList());
 
                     ((NormalUser)findedUser).setLikeList(newUserLikeList);
                 }
 
                 if(findedUser instanceof OrganizerUser){
-                    List<Like> newUserLikeList = ((OrganizerUser) findedUser).getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
-
+                    List<Like> newUserLikeList = ((OrganizerUser) findedUser).getLikeList()
+                    .stream()
+                    .filter(likeItem -> likeItem.getPostId() != like.getPostId())
+                    .collect(Collectors.toList());
+                    
                     ((OrganizerUser)findedUser).setLikeList(newUserLikeList);
                 }
 
