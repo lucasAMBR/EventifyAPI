@@ -31,7 +31,7 @@ public class LikeService {
 
         Post findedPost = postService.findPostById(likeData.getPostId());
 
-        for(Like like : likeList){
+        for(Like like : likeList){         
             if(like.getUserId() == likeData.getUserId() && like.getPostId() == likeData.getPostId()){
 
                 if(findedUser instanceof NormalUser){
