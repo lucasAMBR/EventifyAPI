@@ -14,7 +14,7 @@ import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 
 @Service
-public class SubscriptionService {
+public class SubscriptionService { 
     
     private List<Subscription> subscriptionList = new ArrayList<>();
 
