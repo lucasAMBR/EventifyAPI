@@ -20,7 +20,7 @@ public class GeocodingUtils {
         });
 
         String url = NOMINATIM_URL + "?q=" + location + "&format=json&addressdetails=1&countrycodes=BR";
-
+        
         ResponseEntity<Map[]> response = restTemplate.getForEntity(url, Map[].class);
 
         if(response.getStatusCode().is2xxSuccessful() && response.getBody() != null && response.getBody().length > 0){
