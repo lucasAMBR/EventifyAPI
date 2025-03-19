@@ -11,8 +11,6 @@ import com.equipeAcelera.EventifyAPI.DTOs.like.AddLikeDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
-import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
-import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 
 @Service
@@ -34,23 +32,13 @@ public class LikeService {
         for(Like like : likeList){         
             if(like.getUserId() == likeData.getUserId() && like.getPostId() == likeData.getPostId()){
 
-                if(findedUser instanceof NormalUser){
-                    List<Like> newUserLikeList = ((NormalUser) findedUser).getLikeList()
-                    .stream()
-                    .filter(likeItem -> likeItem.getPostId() != like.getPostId())
-                    .collect(Collectors.toList());
+            
+                List<Like> newUserLikeList = findedUser.getLikeList()
+                .stream()
+                .filter(likeItem -> likeItem.getPostId() != like.getPostId())
+                .collect(Collectors.toList());
 
-                    ((NormalUser)findedUser).setLikeList(newUserLikeList);
-                }
-
-                if(findedUser instanceof OrganizerUser){
-                    List<Like> newUserLikeList = ((OrganizerUser) findedUser).getLikeList()
-                    .stream()
-                    .filter(likeItem -> likeItem.getPostId() != like.getPostId())
-                    .collect(Collectors.toList());
-                    
-                    ((OrganizerUser)findedUser).setLikeList(newUserLikeList);
-                }
+                findedUser.setLikeList(newUserLikeList);
 
                 List<Like> newPostLikeList = findedPost.getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
 
@@ -69,13 +57,7 @@ public class LikeService {
             likeData.getPostId()
         );
 
-        if(findedUser instanceof NormalUser){
-            ((NormalUser) findedUser).getLikeList().add(newLike);
-        }
-
-        if(findedUser instanceof OrganizerUser){
-            ((OrganizerUser) findedUser).getLikeList().add(newLike);
-        }
+        findedUser.getLikeList().add(newLike);
 
         findedPost.getLikeList().add(newLike);
 

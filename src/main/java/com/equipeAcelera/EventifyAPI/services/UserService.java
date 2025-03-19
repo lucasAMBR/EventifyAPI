@@ -78,22 +78,22 @@ public class UserService {
 
         OrganizerUser newOrganizer = new OrganizerUser(
             userList.size() + 1, 
-            user.getName(),
+            user.getName(), 
             formatedCPF, 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
-            ImageUtils.saveProfilePic(user.getProfilePic()),
-            user.getContact(), 
+            ImageUtils.saveProfilePic(user.getProfilePic()), 
+            new ArrayList<>(), 
+            user.getContact(),
             new ArrayList<>(), 
             new ArrayList<>(), 
             new ArrayList<>(), 
-            new ArrayList<>(),
             new ArrayList<>()
-            );
+        );
         
-            userList.add(newOrganizer);
+        userList.add(newOrganizer);
 
-            return newOrganizer;
+        return newOrganizer;
     }
 
     // Acha um usuario pelo Id

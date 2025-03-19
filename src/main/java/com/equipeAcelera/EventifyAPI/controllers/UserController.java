@@ -49,12 +49,12 @@ public class UserController {
         return ResponseEntity.ok().body(findedUser);
     }
 
-    // Lista todos os usuarios cadastrados (Apenas para fins de desenvolvimentp, remover quando tiver tudo pronto)
+    // Lista todos os usuarios cadastrados (Apenas para fins de desenvolvimento, remover quando tiver tudo pronto)
    @GetMapping("/lista")
     public ResponseEntity<List<User>> ListUsers(){
         List<User> userList = userService.viewUserList();
 
         return ResponseEntity.ok().body(userList);
     }
- 
+
 }
