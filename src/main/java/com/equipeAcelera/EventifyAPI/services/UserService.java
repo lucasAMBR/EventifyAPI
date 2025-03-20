@@ -6,10 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.equipeAcelera.EventifyAPI.DTOs.post.ReducedPostDTO;
-import com.equipeAcelera.EventifyAPI.DTOs.user.NormalUserDTO;
-import com.equipeAcelera.EventifyAPI.DTOs.user.OrganizerUserDTO;
-import com.equipeAcelera.EventifyAPI.DTOs.user.ReducedUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterOrganizerUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.UserDTO;
@@ -21,6 +17,7 @@ import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
 import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
+import com.equipeAcelera.EventifyAPI.utils.FormatationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ValidationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
@@ -134,7 +131,7 @@ public class UserService {
         return;
     }
 
-    // Acha um usuario pelo Id
+    // Acha um usuario pelo Id PARA USO INTERNO
     public User findUserById(int id){
         for(User user : userList){
             if(user.getId() == id){
@@ -144,143 +141,12 @@ public class UserService {
         throw new DataNotFoundException("User not found, invalid id!");
     }
 
+    // Acha um usuario pelo Id e formata para exibir
     public UserDTO findUserByIdExhibition(int id){
         for(User user : userList){
             if(user.getId() == id){
-                if(user instanceof NormalUser){
-                    List<ReducedPostDTO> reducedPostList = user.getPostList().stream().map(post -> {
-                        ReducedPostDTO reducedPost = new ReducedPostDTO(
-                            post.getId(), 
-                            post.getUserId(), 
-                            post.getUserName(), 
-                            post.getLikeList().size()
-                        );
-                    
-                    return reducedPost;
-                    }).collect(Collectors.toList());
-
-                    List<ReducedUserDTO> reducedFollowingList = user.getFollowing().stream().map(userItem -> {
-                        String type;
-                        if(userItem instanceof NormalUser){
-                            type = "NORMAL";
-                        }else{
-                            type = "ORGANIZER";
-                        }
-                        ReducedUserDTO reducedUser = new ReducedUserDTO(
-                            userItem.getId(), 
-                            userItem.getProfilePicPath(), 
-                            userItem.getName(), 
-                            type, 
-                            userItem.getFollowers().size(), 
-                            userItem.getFollowing().size(), 
-                            userItem.getPostList().size()
-                        );
-
-                        return reducedUser;
-                    }).collect(Collectors.toList());
-
-                    List<ReducedUserDTO> reducedFollowerList = user.getFollowers().stream().map(userItem -> {
-                        String type;
-                        if(user instanceof NormalUser){
-                            type = "NORMAL";
-                        }else{
-                            type = "ORGANIZER";
-                        }
-                        ReducedUserDTO reducedUser = new ReducedUserDTO(
-                            user.getId(), 
-                            user.getProfilePicPath(), 
-                            user.getName(), 
-                            type, 
-                            user.getFollowers().size(), 
-                            user.getFollowing().size(), 
-                            user.getPostList().size()
-                        );
-
-                        return reducedUser;
-                    }).collect(Collectors.toList());
-
-                    NormalUserDTO userDTO = new NormalUserDTO(
-                        id, 
-                        user.getName(), 
-                        user.getCpf(), 
-                        user.getProfilePicPath(), 
-                        reducedPostList, 
-                        user.getLikeList(), 
-                        reducedFollowingList, 
-                        reducedFollowerList, 
-                        ((NormalUser) user).getBirth(), 
-                        ((NormalUser) user).getSubscriptions()
-                    );
-
-                    return userDTO;
-                }
-                if(user instanceof OrganizerUser){
-                    List<ReducedPostDTO> reducedPostList = user.getPostList().stream().map(post -> {
-                        ReducedPostDTO reducedPost = new ReducedPostDTO(
-                            post.getId(), 
-                            post.getUserId(), 
-                            post.getUserName(), 
-                            post.getLikeList().size()
-                        );
-                    
-                    return reducedPost;
-                    }).collect(Collectors.toList());
-
-                    List<ReducedUserDTO> reducedFollowingList = user.getFollowing().stream().map(userItem -> {
-                        String type;
-                        if(userItem instanceof NormalUser){
-                            type = "NORMAL";
-                        }else{
-                            type = "ORGANIZER";
-                        }
-                        ReducedUserDTO reducedUser = new ReducedUserDTO(
-                            userItem.getId(), 
-                            userItem.getProfilePicPath(), 
-                            userItem.getName(), 
-                            type, 
-                            userItem.getFollowers().size(), 
-                            userItem.getFollowing().size(), 
-                            userItem.getPostList().size()
-                        );
-
-                        return reducedUser;
-                    }).collect(Collectors.toList());
-
-                    List<ReducedUserDTO> reducedFollowerList = user.getFollowers().stream().map(userItem -> {
-                        String type;
-                        if(userItem instanceof NormalUser){
-                            type = "NORMAL";
-                        }else{
-                            type = "ORGANIZER";
-                        }
-                        ReducedUserDTO reducedUser = new ReducedUserDTO(
-                            userItem.getId(), 
-                            userItem.getProfilePicPath(), 
-                            userItem.getName(), 
-                            type, 
-                            userItem.getFollowers().size(), 
-                            userItem.getFollowing().size(), 
-                            userItem.getPostList().size()
-                        );
-
-                        return reducedUser;
-                    }).collect(Collectors.toList());
-
-                    OrganizerUserDTO userDTO = new OrganizerUserDTO(
-                        id, 
-                        user.getName(), 
-                        user.getCpf(), 
-                        user.getProfilePicPath(), 
-                        reducedPostList, 
-                        user.getLikeList(), 
-                        reducedFollowingList, 
-                        reducedFollowerList, 
-                        ((OrganizerUser) user).getContact(), 
-                        ((OrganizerUser) user).getEventList()
-                    );
-
-                    return userDTO;
-                }
+               UserDTO userDTO = FormatationUtils.formatUser(user);
+               return userDTO;
             }
         }
         throw new DataNotFoundException("User not found, invalid id!");

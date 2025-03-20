@@ -4,12 +4,14 @@ public class ReducedPostDTO {
     protected int id;
     protected int userId;
     protected String userName;
+    protected String content;
     protected int likes;
     
-    public ReducedPostDTO(int id, int userId, String userName, int likes) {
+    public ReducedPostDTO(int id, int userId, String userName, String content, int likes) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
+        this.content = content;
         this.likes = likes;
     }
 
@@ -45,5 +47,12 @@ public class ReducedPostDTO {
         this.likes = likes;
     }
 
-    
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
 }
