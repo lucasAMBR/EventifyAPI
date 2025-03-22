@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
@@ -53,6 +54,14 @@ public class PostService {
         }
 
         return newPost;
+    }
+
+    public Post UpdatePostContent(UpdatePostDTO updateData){
+        Post findedPost = findPostById(updateData.getPostId());
+
+        findedPost.setContent(updateData.getContent());
+
+        return findedPost;
     }
 
     // Acha um post pelo id
