@@ -11,6 +11,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.post.CreateEventPostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Post.EventPost;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -76,6 +77,10 @@ public class PostService {
 
     public Post UpdatePostContent(UpdatePostDTO updateData){
         Post findedPost = findPostById(updateData.getPostId());
+
+        if(findedPost.getUserId() != updateData.getUserId()){
+            throw new UnauthorizedFunctionAccessException("You dont have permission to this!!!");
+        }
 
         findedPost.setContent(updateData.getContent());
 
