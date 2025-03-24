@@ -17,9 +17,17 @@ import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
 import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
 import com.equipeAcelera.EventifyAPI.utils.ValidationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.equipeAcelera.EventifyAPI.services.EmailService;
+
+
+
 
 @Service
 public class UserService {
+
+    @Autowired
+    private EmailService emailService;
 
     // Lista que armazena todos os usuarios do sistema, normais e organizadores
     public static List<User> userList = new ArrayList<>();
@@ -57,6 +65,21 @@ public class UserService {
         userList.add(newUser);
 
         //! Inserir aqui a função para enviar o email de boas vindas
+        String assunto = "Cadastro realizado com sucesso!";
+        String html = """
+        <html>
+            <body>
+                <h2 style='color: green;'>Bem-vindo(a) usuário, """ + user.getName() + """
+            </body>
+        </html>
+        """;
+
+        try {
+            emailService.sendHtmlEmail(user.getEmail(), assunto, html);
+        } catch (Exception e) {
+            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
+        }
+
 
         return newUser;
     }
@@ -92,6 +115,22 @@ public class UserService {
         );
         
         userList.add(newOrganizer);
+
+        String assunto = "Cadastro de organizador realizado!";
+        String html = """
+        <html>
+            <body>
+                <h2 style='color: blue;'>Olá, organizador """ + user.getName() + """
+            </body>
+        </html>
+        """;
+
+        try {
+            emailService.sendHtmlEmail(user.getEmail(), assunto, html);
+        } catch (Exception e) {
+            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
+        }
+
 
         return newOrganizer;
     }
