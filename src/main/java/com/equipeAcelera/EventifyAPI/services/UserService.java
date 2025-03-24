@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterOrganizerUserDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.user.UpdateUserDataDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.UserDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
+import com.equipeAcelera.EventifyAPI.models.Event.Event;
+import com.equipeAcelera.EventifyAPI.models.Like.Like;
+import com.equipeAcelera.EventifyAPI.models.Post.Post;
+import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -26,6 +32,18 @@ public class UserService {
 
     // Lista que armazena todos os usuarios do sistema, normais e organizadores
     public static List<User> userList = new ArrayList<>();
+
+    @Autowired
+    EventService eventService;
+
+    @Autowired
+    PostService postService;
+
+    @Autowired
+    LikeService likeService;
+
+    @Autowired
+    SubscriptionService subscriptionService;
 
     // Cadastra usuario normal
     public NormalUser RegisterNormalUser(RegisterNormalUserDTO user){ 
@@ -97,6 +115,37 @@ public class UserService {
         userList.add(newOrganizer);
 
         return newOrganizer;
+    }
+
+    public void updateUserName(UpdateUserDataDTO userData){
+        
+        User findedUser = findUserById(userData.getId());
+
+        findedUser.setName(userData.getUserName());
+
+        for(Post post : postService.listAllPosts()){
+            if(post.getUserId() == findedUser.getId()){
+                post.setUserName(userData.getUserName());
+            }
+        };
+
+        for(Event event : eventService.getEventList()){
+            if(event.getOrganizerId() == findedUser.getId()){
+                event.setOrganizerName(userData.getUserName());;
+            }
+        }
+
+        for(Like like : likeService.listAllLikes()){
+            if(like.getUserId() == findedUser.getId()){
+                like.setUserName(userData.getUserName());
+            }
+        }
+
+        for(Subscription subs : subscriptionService.listAllSubs()){
+            if(subs.getUserId() == findedUser.getId()){
+                subs.setUserName(userData.getUserName());
+            }
+        }
     }
 
     public void manageFollow(int actorId, int userId){

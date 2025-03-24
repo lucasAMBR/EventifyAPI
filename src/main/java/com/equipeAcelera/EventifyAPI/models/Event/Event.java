@@ -122,6 +122,14 @@ public class Event {
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public String getOrganizerName() {
+        return organizerName;
+    }
+
+    public void setOrganizerName(String organizerName) {
+        this.organizerName = organizerName;
     }  
 
     

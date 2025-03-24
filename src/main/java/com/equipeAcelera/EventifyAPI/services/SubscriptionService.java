@@ -2,6 +2,7 @@ package com.equipeAcelera.EventifyAPI.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,14 @@ public class SubscriptionService {
         subscriptionList.add(newSub);
 
         return newSub;
+    }
+
+    public List<Subscription> listAllSubs(){
+        List<Subscription> newSubsList = subscriptionList.stream().map(subs -> {
+            return subs;
+        }).collect(Collectors.toList());
+
+        return newSubsList;
     }
 
 }
