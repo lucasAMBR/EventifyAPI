@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.services.PostService;
 
@@ -33,6 +35,13 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<Post> FindPostById(@PathVariable int id){
         Post findedPost = postService.findPostById(id);
+
+        return ResponseEntity.ok().body(findedPost);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Post> UpdatePostContent(UpdatePostDTO updateData){
+        Post findedPost = postService.UpdatePostContent(updateData);
 
         return ResponseEntity.ok().body(findedPost);
     }

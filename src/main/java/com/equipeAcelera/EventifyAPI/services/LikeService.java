@@ -75,5 +75,13 @@ public class LikeService {
 
         throw new DataNotFoundException("Like not found!");
     }
-     
+ 
+    public List<Like> listAllLikes(){
+        List<Like> newLikeList = likeList.stream().map(like -> {
+            return like;
+        }).collect(Collectors.toList());
+
+        return newLikeList;
+    }
+
 }
