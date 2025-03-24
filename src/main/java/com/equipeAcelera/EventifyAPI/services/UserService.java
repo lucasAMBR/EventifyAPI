@@ -29,9 +29,6 @@ import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.equipeAcelera.EventifyAPI.services.EmailService;
 
-
-
-
 @Service
 public class UserService {
 
@@ -85,7 +82,7 @@ public class UserService {
 
         userList.add(newUser);
 
-        //! Inserir aqui a função para enviar o email de boas vindas
+        //Função para enviar o email de boas vindas para o usuário (modificar HTML depois)
         String assunto = "Cadastro realizado com sucesso!";
         String html = """
         <html>
@@ -137,6 +134,7 @@ public class UserService {
         
         userList.add(newOrganizer);
 
+        //Função para enviar o email de boas vindas para o organizador (modificar HTML depois)
         String assunto = "Cadastro de organizador realizado!";
         String html = """
         <html>
