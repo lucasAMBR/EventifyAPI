@@ -15,6 +15,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.services.PostService;
+import com.equipeAcelera.EventifyAPI.services.UpdateService;
 
 @RestController
 @RequestMapping("/api/post")
@@ -22,6 +23,9 @@ public class PostController {
     
     @Autowired
     PostService postService;
+
+    @Autowired
+    UpdateService updateService;
 
     // Cria uma postagem
     @PostMapping("/create")
@@ -41,7 +45,7 @@ public class PostController {
 
     @PutMapping("/update")
     public ResponseEntity<Post> UpdatePostContent(UpdatePostDTO updateData){
-        Post findedPost = postService.UpdatePostContent(updateData);
+        Post findedPost = updateService.UpdatePostContent(updateData);
 
         return ResponseEntity.ok().body(findedPost);
     }

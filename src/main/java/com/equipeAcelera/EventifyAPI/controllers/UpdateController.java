@@ -17,10 +17,10 @@ public class UpdateController {
     @Autowired
     UpdateService updateService;
 
-    @PutMapping("/username")
+    @PutMapping("/userdata")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void UpdateUserName(UpdateUserDataDTO userData){
-        updateService.updateUserName(userData);
+        updateService.updateUserData(userData);
     }
 
 }
