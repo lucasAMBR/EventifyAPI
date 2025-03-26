@@ -25,6 +25,9 @@ public class SubscriptionService {
     @Autowired
     EventService eventService;
 
+    @Autowired
+    EmailService emailService;
+
     public Subscription generateSubscription(GenerateSubscriptionDTO subs){
         
         User findedUser = userService.findUserById(subs.getUserId());
@@ -53,6 +56,13 @@ public class SubscriptionService {
         }
         
         subscriptionList.add(newSub);
+
+//        isso aqui nao ta funcionando, depois eu arrumo
+//        try {
+//            emailService.sendSubscriptionEmail(findedUser.getEmail());
+//        } catch (Exception e) {
+//            System.err.println("Erro ao enviar e-mail: " + e.getMessage());
+//        }
 
         return newSub;
     }
