@@ -36,6 +36,5 @@ public class UpdateUserDataDTO {
     public void setNewProfilePic(MultipartFile newProfilePic) {
         this.newProfilePic = newProfilePic;
     }
-
     
 }

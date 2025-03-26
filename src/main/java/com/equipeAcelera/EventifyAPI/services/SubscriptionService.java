@@ -17,7 +17,7 @@ import com.equipeAcelera.EventifyAPI.models.User.User;
 @Service
 public class SubscriptionService { 
     
-    private List<Subscription> subscriptionList = new ArrayList<>();
+    public static List<Subscription> subscriptionList = new ArrayList<>();
 
     @Autowired
     UserService userService;

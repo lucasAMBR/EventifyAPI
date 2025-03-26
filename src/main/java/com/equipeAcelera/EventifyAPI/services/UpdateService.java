@@ -14,6 +14,7 @@ import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
+import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
@@ -99,6 +100,22 @@ public class UpdateService {
         return findedPost;
     }
 
+    public void CancelSubscription(int userId, int eventId){
 
+        User findedUser = userService.findUserById(userId);
+
+        Event findedEvent = eventService.getEventById(eventId);
+
+        for(Subscription subs : SubscriptionService.subscriptionList){
+            if(subs.getEventId() == findedEvent.getId() && subs.getUserId() == findedUser.getId()){
+                SubscriptionService.subscriptionList.remove(subs);
+                ((NormalUser) findedUser).getSubscriptions().remove(subs);
+                findedEvent.getSubscriptionList().remove(subs);
+                return;
+            }
+        }
+
+        throw new RuntimeException("Subscription not found!");
+    }
 
 }
