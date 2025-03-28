@@ -65,4 +65,12 @@ public class SubscriptionService {
         return newSubsList;
     }
 
+    public List<Subscription> listSubscriptionsByUserId(int userId){
+        List<Subscription> userSubscriptions = SubscriptionService.subscriptionList.stream()
+            .filter(subs -> subs.getUserId() == userId)
+            .collect(Collectors.toList());
+
+        return userSubscriptions;
+    }
+
 }
