@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
+import com.equipeAcelera.EventifyAPI.services.PostLikeService;
 import com.equipeAcelera.EventifyAPI.services.PostService;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
 
@@ -26,6 +27,9 @@ public class PostController {
 
     @Autowired
     UpdateService updateService;
+
+    @Autowired
+    PostLikeService postLikeService;
 
     // Cria uma postagem
     @PostMapping("/create")
@@ -48,6 +52,13 @@ public class PostController {
         Post findedPost = updateService.UpdatePostContent(updateData);
 
         return ResponseEntity.ok().body(findedPost);
+    }
+
+    @GetMapping("/liked/user/{userId}")
+    public ResponseEntity<List<Post>> listAllLikedPostByUser(@PathVariable int userId){
+        List<Post> likedList = postLikeService.listAllLikedPostByUserId(userId);
+
+        return ResponseEntity.ok().body(likedList);
     }
 
     // Acha todos os posts do sistema
