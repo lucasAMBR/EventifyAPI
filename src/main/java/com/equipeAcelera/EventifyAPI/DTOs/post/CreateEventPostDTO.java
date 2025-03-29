@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO para criar uma postagem no feed de um evento
 public class CreateEventPostDTO {
     private int userId;
     private int eventId;

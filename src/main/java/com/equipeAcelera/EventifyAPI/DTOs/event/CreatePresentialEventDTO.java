@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO que deve ser enviado para criar um evento presencial
 public class CreatePresentialEventDTO {
     private String title;
     private String description;

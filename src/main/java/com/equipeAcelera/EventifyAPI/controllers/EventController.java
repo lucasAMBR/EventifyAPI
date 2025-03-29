@@ -22,6 +22,7 @@ public class EventController {
     @Autowired
     EventService eventService;
 
+    // Cria Eventos Presenciais
     @PostMapping("/create/presential")
     public ResponseEntity<Event> CreatePresentialEvent(CreatePresentialEventDTO eventData){
         Event newEvent = eventService.createPresentialEvent(eventData);
@@ -29,6 +30,7 @@ public class EventController {
         return ResponseEntity.ok().body(newEvent);
     }
 
+    // Cria Eventos online
     @PostMapping("/create/online")
     public ResponseEntity<Event> CreateOnlineEvent(CreateOnlineEventDTO eventData){
         Event newEvent = eventService.createOnlineEvent(eventData);
@@ -36,6 +38,7 @@ public class EventController {
         return ResponseEntity.ok().body(newEvent);
     }
 
+    // Lista todos os eventos de um organizador
     @GetMapping("/list/user/{userId}")
     public ResponseEntity<List<Event>> ListAllUserEvents(@PathVariable int userId){
         List<Event> userEventList = eventService.getAllEventFromUserById(userId);
@@ -43,6 +46,7 @@ public class EventController {
         return ResponseEntity.ok().body(userEventList);
     }
 
+    // Acha um evento pelo Id
     @GetMapping("/find/{id}")
     public ResponseEntity<Event> FindEventById(int id){
         Event findedEvent = eventService.getEventById(id);

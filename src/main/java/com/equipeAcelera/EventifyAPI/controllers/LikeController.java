@@ -17,6 +17,7 @@ public class LikeController {
     @Autowired
     LikeService likeService;
 
+    // Adiciona ou remove o like de uma postagem
     @PostMapping("/add")
     public ResponseEntity<Like> like(AddLikeDTO likeData){
         Like like = likeService.addLike(likeData);

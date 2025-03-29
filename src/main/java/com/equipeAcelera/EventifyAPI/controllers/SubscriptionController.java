@@ -28,6 +28,7 @@ public class SubscriptionController {
     @Autowired
     UpdateService updateService;
 
+    // Inscreve um usuario em um evento
     @PostMapping("/create")
     public ResponseEntity<Subscription> GenerateSubscription(GenerateSubscriptionDTO subs){
         Subscription newSub = subscriptionService.generateSubscription(subs);
@@ -35,12 +36,14 @@ public class SubscriptionController {
         return ResponseEntity.ok().body(newSub);
     }
 
+    // Remove a inscrição de um usuario no evento
     @DeleteMapping("/cancel/{userId}/{eventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void CancelSubscription(@PathVariable int userId, @PathVariable int eventId){
         updateService.CancelSubscription(userId, eventId);
     }
 
+    // Lista Todas as incrições de um usuario
     @GetMapping("/list/user/{userId}")
     public ResponseEntity<List<Subscription>> listUserSubscriptions(@PathVariable int userId){
         List<Subscription> subsList = subscriptionService.listSubscriptionsByUserId(userId);

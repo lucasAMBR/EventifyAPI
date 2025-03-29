@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.DTOs.like;
 
+// DTO que deve ser enviado para adicionar um like (Provavelmente vai ser alterado no futuro)
 public class AddLikeDTO {
     private int userId;
     private int postId;

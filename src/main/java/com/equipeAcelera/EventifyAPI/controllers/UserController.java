@@ -44,6 +44,7 @@ public class UserController {
         return ResponseEntity.ok().body(newUser);
     }
 
+    // Adiciona o alvo a lista de seguindo do ator, e o ator na lsta de seguidores do alvo
     @PostMapping("/follow/{actorId}/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ManageFollow(@PathVariable int actorId, @PathVariable int userId){

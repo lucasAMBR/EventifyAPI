@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.DTOs.subscription;
 
+// DTO que deve ser enviado para se inscrever em um evento
 public class GenerateSubscriptionDTO {
     private int userId;
     private int eventId;

@@ -47,6 +47,7 @@ public class PostController {
         return ResponseEntity.ok().body(findedPost);
     }
 
+    // Atualiza os dados de um post
     @PutMapping("/update")
     public ResponseEntity<Post> UpdatePostContent(UpdatePostDTO updateData){
         Post findedPost = updateService.UpdatePostContent(updateData);
@@ -54,6 +55,7 @@ public class PostController {
         return ResponseEntity.ok().body(findedPost);
     }
 
+    // Lista todos os posts curtidos por um usuario
     @GetMapping("/liked/user/{userId}")
     public ResponseEntity<List<Post>> listAllLikedPostByUser(@PathVariable int userId){
         List<Post> likedList = postLikeService.listAllLikedPostByUserId(userId);
