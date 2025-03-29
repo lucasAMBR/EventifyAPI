@@ -108,7 +108,7 @@ public class EventService {
 
             ((NormalUser) findedUser).getSubscriptions().remove(sub);
 
-            // Inserir Aqui o email de cancelamento do evento para todos os inscritos
+            // Inserir Aqui o email avisando do cancelamento do evento para todos os inscritos
         }
 
         findedEvent.setSubscriptionList(new ArrayList<>());
