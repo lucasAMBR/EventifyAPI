@@ -3,6 +3,7 @@ package com.equipeAcelera.EventifyAPI.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,14 @@ public class EventService {
         eventList.add(newEvent);
 
         return newEvent;
+    }
+
+    public List<Event> getAllEventFromUserById(int userId){
+        List<Event> userEventList = eventList.stream()
+            .filter(event -> event.getOrganizerId() == userId)
+            .collect(Collectors.toList());
+        
+        return userEventList;
     }
 
     // Pega um evento pelo id
