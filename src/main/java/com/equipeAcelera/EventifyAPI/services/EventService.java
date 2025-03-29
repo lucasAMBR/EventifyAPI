@@ -15,6 +15,7 @@ import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedF
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Event.OnlineEvent;
 import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
+import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -96,6 +97,26 @@ public class EventService {
         return newEvent;
     }
 
+    // Cancela um evento e avisa os inscritos
+    public void cancelEvent(int eventId){
+        Event findedEvent = getEventById(eventId);
+
+        List<Subscription> subsList = findedEvent.getSubscriptionList();
+
+        for(Subscription sub : subsList){
+            User findedUser = userService.findUserById(sub.getUserId());
+
+            ((NormalUser) findedUser).getSubscriptions().remove(sub);
+
+            // Inserir Aqui o email de cancelamento do evento para todos os inscritos
+        }
+
+        findedEvent.setSubscriptionList(new ArrayList<>());
+
+        findedEvent.setActive(false);
+    }
+
+    // Lista todos os eventos de um usuario
     public List<Event> getAllEventFromUserById(int userId){
         List<Event> userEventList = eventList.stream()
             .filter(event -> event.getOrganizerId() == userId)
