@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
+import com.equipeAcelera.EventifyAPI.models.Post.EventPost;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 
 @Service
@@ -18,6 +19,9 @@ public class PostLikeService {
 
     @Autowired
     LikeService likeService;
+
+    @Autowired
+    EventService eventService;
 
     public List<Post> listAllLikedPostByUserId(int userId){
         List<Like> userLikeList = likeService.listAllLikes().stream()
@@ -33,6 +37,22 @@ public class PostLikeService {
         }
 
         return likedPosts;
+    }
+
+    public List<Post> listEventPosts(int eventId){
+        List<Post> eventList = postService.listAllPosts();
+
+        List<Post> eventPostList = new ArrayList<>();
+
+        for(Post post : eventList){
+            if(post instanceof EventPost){
+                if(((EventPost) post).getEventId() == eventId){
+                    eventPostList.add(post);
+                }
+            }
+        }
+
+        return eventPostList;
     }
 
 }
