@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equipeAcelera.EventifyAPI.DTOs.post.CreateEventPostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
@@ -39,6 +40,13 @@ public class PostController {
         return ResponseEntity.ok().body(newPost);
     }
 
+    @PostMapping("/create/event")
+    public ResponseEntity<Post> createEventPost(CreateEventPostDTO postData){
+        Post newEventPost = postService.createEventPost(postData);
+
+        return ResponseEntity.ok().body(newEventPost);
+    }
+
     // Acha um post pelo id
     @GetMapping("/{id}")
     public ResponseEntity<Post> FindPostById(@PathVariable int id){
@@ -61,6 +69,13 @@ public class PostController {
         List<Post> likedList = postLikeService.listAllLikedPostByUserId(userId);
 
         return ResponseEntity.ok().body(likedList);
+    }
+
+    @GetMapping("/event/{eventId}")
+    public ResponseEntity<List<Post>> listAllEventPostsByEventId(@PathVariable int eventId){
+        List<Post> postList = postLikeService.listEventPosts(eventId);
+
+        return ResponseEntity.ok().body(postList);
     }
 
     // Acha todos os posts do sistema
