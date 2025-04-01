@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.LoginNormalUserDTO;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.LoginHistory.LoginHistory;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
@@ -31,7 +32,7 @@ public class AuthService {
                 }
             }
         }
-        throw new RuntimeException("Usuario nao encontrado");
+        throw new DataNotFoundException("Usuario nao encontrado");
     }
 
     // Retorna historico de um usuario

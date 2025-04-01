@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class AuthController {
     
     // Realiza o login, retorna um objeto User e captura o ip e adiciona um item no historico de login da conta
     @PostMapping("/login")
-    public ResponseEntity<User> Login(LoginNormalUserDTO userCredentials, HttpServletRequest request){
+    public ResponseEntity<User> Login(@ModelAttribute LoginNormalUserDTO userCredentials, HttpServletRequest request){
         
         String clientIp = request.getHeader("X-Forwarded-For");
         if (clientIp == null || clientIp.isEmpty()) {

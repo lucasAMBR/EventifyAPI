@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,7 +35,7 @@ public class PostController {
 
     // Cria uma postagem
     @PostMapping("/create")
-    public ResponseEntity<Post> CreatePost(CreatePostDTO postData){
+    public ResponseEntity<Post> CreatePost(@ModelAttribute CreatePostDTO postData){
         Post newPost = postService.CreateNewPost(postData);
 
         return ResponseEntity.ok().body(newPost);
@@ -42,7 +43,7 @@ public class PostController {
 
     // Cria uma postagem no feed do evento
     @PostMapping("/create/event")
-    public ResponseEntity<Post> createEventPost(CreateEventPostDTO postData){
+    public ResponseEntity<Post> createEventPost(@ModelAttribute CreateEventPostDTO postData){
         Post newEventPost = postService.createEventPost(postData);
 
         return ResponseEntity.ok().body(newEventPost);
@@ -58,7 +59,7 @@ public class PostController {
 
     // Atualiza os dados de um post
     @PutMapping("/update")
-    public ResponseEntity<Post> UpdatePostContent(UpdatePostDTO updateData){
+    public ResponseEntity<Post> UpdatePostContent(@ModelAttribute UpdatePostDTO updateData){
         Post findedPost = updateService.UpdatePostContent(updateData);
 
         return ResponseEntity.ok().body(findedPost);

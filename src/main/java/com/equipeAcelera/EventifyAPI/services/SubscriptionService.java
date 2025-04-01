@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.equipeAcelera.EventifyAPI.DTOs.subscription.GenerateSubscriptionDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
@@ -25,17 +24,17 @@ public class SubscriptionService {
     @Autowired
     EventService eventService;
 
-    public Subscription generateSubscription(GenerateSubscriptionDTO subs){
+    public Subscription generateSubscription(int userId, int eventId){
         
-        User findedUser = userService.findUserById(subs.getUserId());
+        User findedUser = userService.findUserById(userId);
 
-        Event findedEvent = eventService.getEventById(subs.getEventId());
+        Event findedEvent = eventService.getEventById(eventId);
 
         Subscription newSub = new Subscription(
             subscriptionList.size() + 1, 
-            subs.getUserId(), 
+            userId, 
             findedUser.getName(), 
-            subs.getEventId(), 
+            eventId, 
             findedEvent.getTitle(), 
             "ABSENT"
         );

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.equipeAcelera.EventifyAPI.DTOs.subscription.GenerateSubscriptionDTO;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.services.SubscriptionService;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
@@ -29,9 +28,9 @@ public class SubscriptionController {
     UpdateService updateService;
 
     // Inscreve um usuario em um evento
-    @PostMapping("/create")
-    public ResponseEntity<Subscription> GenerateSubscription(GenerateSubscriptionDTO subs){
-        Subscription newSub = subscriptionService.generateSubscription(subs);
+    @PostMapping("/create/{eventId}/{userId}")
+    public ResponseEntity<Subscription> GenerateSubscription(@PathVariable int userId, @PathVariable int eventId){
+        Subscription newSub = subscriptionService.generateSubscription(userId, eventId);
         
         return ResponseEntity.ok().body(newSub);
     }
