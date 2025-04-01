@@ -118,4 +118,13 @@ public class UpdateService {
         throw new RuntimeException("Subscription not found!");
     }
 
+    public void deletePost(int postId){
+        Post findedPost = postService.findPostById(postId);
+        User findedUser = userService.findUserById(findedPost.getUserId());
+        PostService.postList.remove(findedPost);
+        findedUser.getPostList().remove(findedPost);
+
+        findedPost = null;
+    }
+
 }

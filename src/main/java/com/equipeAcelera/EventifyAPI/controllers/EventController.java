@@ -36,7 +36,7 @@ public class EventController {
 
     // Cria Eventos online
     @PostMapping("/create/online")
-    public ResponseEntity<Event> CreateOnlineEvent(CreateOnlineEventDTO eventData){
+    public ResponseEntity<Event> CreateOnlineEvent(@ModelAttribute CreateOnlineEventDTO eventData){
         Event newEvent = eventService.createOnlineEvent(eventData);
 
         return ResponseEntity.ok().body(newEvent);

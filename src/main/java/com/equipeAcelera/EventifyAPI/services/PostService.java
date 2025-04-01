@@ -22,7 +22,7 @@ public class PostService {
     @Autowired
     UserService userService;
 
-    private static List<Post> postList = new ArrayList<>();
+    public static List<Post> postList = new ArrayList<>();
 
     //Cria uma postagem
     public Post CreateNewPost(CreatePostDTO postData){
