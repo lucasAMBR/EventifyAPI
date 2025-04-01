@@ -40,6 +40,7 @@ public class PostController {
         return ResponseEntity.ok().body(newPost);
     }
 
+    // Cria uma postagem no feed do evento
     @PostMapping("/create/event")
     public ResponseEntity<Post> createEventPost(CreateEventPostDTO postData){
         Post newEventPost = postService.createEventPost(postData);
@@ -71,6 +72,7 @@ public class PostController {
         return ResponseEntity.ok().body(likedList);
     }
 
+    // Lista todos os posts de um evento
     @GetMapping("/event/{eventId}")
     public ResponseEntity<List<Post>> listAllEventPostsByEventId(@PathVariable int eventId){
         List<Post> postList = postLikeService.listEventPosts(eventId);
