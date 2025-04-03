@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.event.CreateOnlineEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.services.EventService;
+import com.equipeAcelera.EventifyAPI.services.UpdateService;
 
 @RestController
 @RequestMapping("/api/event")
@@ -25,6 +27,9 @@ public class EventController {
     
     @Autowired
     EventService eventService;
+
+    @Autowired
+    UpdateService updateService;
 
     // Cria Eventos Presenciais
     @PostMapping("/create/presential")
@@ -46,6 +51,12 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void  CancelEvent(@PathVariable int eventId){
         eventService.cancelEvent(eventId);
+    }
+
+    @DeleteMapping("/canceled/delete/{eventId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void RemoveCanceledEvent(@PathVariable int eventId){
+        updateService.removeCanceledEvent(eventId);
     }
 
     // Lista todos os eventos de um organizador

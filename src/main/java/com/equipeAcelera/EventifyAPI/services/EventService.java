@@ -24,7 +24,7 @@ import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
 @Service
 public class EventService {
-    private static List<Event> eventList = new ArrayList<>();
+    public static List<Event> eventList = new ArrayList<>();
 
     @Autowired
     UserService userService;

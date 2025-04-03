@@ -15,6 +15,7 @@ import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
+import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
@@ -116,6 +117,20 @@ public class UpdateService {
         }
 
         throw new RuntimeException("Subscription not found!");
+    }
+
+    public void removeCanceledEvent(int eventId){
+        Event findedEvent = eventService.getEventById(eventId);
+
+        User findedUser = userService.findUserById(findedEvent.getOrganizerId());
+
+        if(findedEvent.getSubscriptionList().size() > 0 && findedEvent.isActive()){
+            throw new UnauthorizedFunctionAccessException("You cannot exclude an active event");
+        }
+
+        ((OrganizerUser) findedUser).getEventList().remove(findedEvent);
+
+        EventService.eventList.remove(findedEvent);
     }
 
     public void deletePost(int postId){
