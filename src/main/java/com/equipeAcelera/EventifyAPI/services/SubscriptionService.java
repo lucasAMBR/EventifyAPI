@@ -57,12 +57,11 @@ public class SubscriptionService {
         
         subscriptionList.add(newSub);
 
-//        isso aqui nao ta funcionando, depois eu arrumo
-//        try {
-//            emailService.sendSubscriptionEmail(findedUser.getEmail());
-//        } catch (Exception e) {
-//            System.err.println("Erro ao enviar e-mail: " + e.getMessage());
-//        }
+        try {
+            emailService.sendSubscriptionEmail((NormalUser)findedUser, newSub, findedEvent);
+        } catch (Exception e) {
+            System.err.println("Erro ao enviar e-mail: " + e.getMessage());
+        }
 
         return newSub;
     }
