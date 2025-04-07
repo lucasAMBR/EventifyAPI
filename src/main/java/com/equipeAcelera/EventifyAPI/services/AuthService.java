@@ -32,7 +32,7 @@ public class AuthService {
                 }
             }
         }
-        throw new DataNotFoundException("Usuario nao encontrado");
+        throw new DataNotFoundException("User not found!");
     }
 
     // Retorna historico de um usuario
