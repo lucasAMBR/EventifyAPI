@@ -47,13 +47,21 @@ public class UserService {
             throw new UserAlreadyExistException("This email is already in use!");
         }
 
+        String profilePicPath;
+
+        if(user.getProfilePic() == null){
+            profilePicPath = "/uploads/profile_pic/default.png";
+        }else{
+            profilePicPath = ImageUtils.saveProfilePic(user.getProfilePic());
+        }
+
         NormalUser newUser = new NormalUser(
             userList.size() + 1, 
             user.getName(),
             formatedCPF, 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
-            ImageUtils.saveProfilePic(user.getProfilePic()),
+            profilePicPath,
             user.getBirth(),
             new ArrayList<>(), 
             new ArrayList<>(), 
@@ -99,13 +107,21 @@ public class UserService {
             throw new UserAlreadyExistException("This email is already in use!");
         }
 
+        String profilePicPath;
+
+        if(user.getProfilePic() == null){
+            profilePicPath = "/uploads/profile_pic/default.png";
+        }else{
+            profilePicPath = ImageUtils.saveProfilePic(user.getProfilePic());
+        }
+
         OrganizerUser newOrganizer = new OrganizerUser(
             userList.size() + 1, 
             user.getName(), 
             formatedCPF, 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
-            ImageUtils.saveProfilePic(user.getProfilePic()), 
+            profilePicPath, 
             new ArrayList<>(), 
             user.getContact(),
             new ArrayList<>(), 

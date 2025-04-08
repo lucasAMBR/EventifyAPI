@@ -78,7 +78,7 @@ public class UpdateService {
                 Path filePath = Paths.get(uploadDir + findedUser.getProfilePicPath());
                 File file = filePath.toFile();
 
-                if(file.exists() && findedUser.getProfilePicPath() != "/uploads/profile_pic/default.jpg"){
+                if(file.exists() && findedUser.getProfilePicPath() != "/uploads/profile_pic/default.png"){
                     file.delete();
                 }
             }catch(Exception e){
