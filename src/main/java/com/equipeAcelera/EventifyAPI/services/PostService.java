@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,7 +40,8 @@ public class PostService {
             findedUser.getName(),
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 
-            new ArrayList<>()
+            new ArrayList<>(),
+            LocalDateTime.now()
         );
                 
         postList.add(newPost);
@@ -63,7 +65,8 @@ public class PostService {
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 
             new ArrayList<>(),
-            postData.getEventId()
+            postData.getEventId(),
+            LocalDateTime.now()
         );
                 
         postList.add(newPost);
