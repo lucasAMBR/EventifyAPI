@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.models.Post;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
@@ -11,14 +12,16 @@ public class Post {
     protected String content;
     protected List<String> imagesPath;
     protected List<Like> likeList;
+    protected LocalDateTime date;
     
-    public Post(int id, int userId, String userName, String content, List<String> imagesPath, List<Like> likeList) {
+    public Post(int id, int userId, String userName, String content, List<String> imagesPath, List<Like> likeList, LocalDateTime date) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
         this.content = content;
         this.imagesPath = imagesPath;
         this.likeList = likeList;
+        this.date = date;
     }
     
     public int getId() {
@@ -58,6 +61,14 @@ public class Post {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     

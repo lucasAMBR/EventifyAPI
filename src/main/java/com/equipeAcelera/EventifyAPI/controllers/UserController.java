@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class UserController {
 
     // Cria um user normal
     @PostMapping("/register-normal")
-    public ResponseEntity<NormalUser> RegisterNormalUser(RegisterNormalUserDTO user){
+    public ResponseEntity<NormalUser> RegisterNormalUser(@ModelAttribute RegisterNormalUserDTO user){
         NormalUser newUser = userService.RegisterNormalUser(user);
         
         return ResponseEntity.ok().body(newUser);
@@ -38,12 +39,13 @@ public class UserController {
 
     // Cria um usuario organizador
     @PostMapping("/register-organizer")
-    public ResponseEntity<OrganizerUser> RegisterOrganizerUser(RegisterOrganizerUserDTO user){
+    public ResponseEntity<OrganizerUser> RegisterOrganizerUser(@ModelAttribute RegisterOrganizerUserDTO user){
         OrganizerUser newUser = userService.RegisterOganizerUser(user);
         
         return ResponseEntity.ok().body(newUser);
     }
 
+    // Adiciona o alvo a lista de seguindo do ator, e o ator na lsta de seguidores do alvo
     @PostMapping("/follow/{actorId}/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ManageFollow(@PathVariable int actorId, @PathVariable int userId){

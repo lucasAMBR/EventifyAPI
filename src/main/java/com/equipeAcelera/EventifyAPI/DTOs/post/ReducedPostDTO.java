@@ -7,6 +7,7 @@ public class ReducedPostDTO {
     protected String content;
     protected int likes;
     
+    // Versão reduzida de um post para ser exibido na exibição de usuario
     public ReducedPostDTO(int id, int userId, String userName, String content, int likes) {
         this.id = id;
         this.userId = userId;

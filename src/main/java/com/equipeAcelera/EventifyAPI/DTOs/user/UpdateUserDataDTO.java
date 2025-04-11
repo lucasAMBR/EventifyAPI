@@ -2,6 +2,7 @@ package com.equipeAcelera.EventifyAPI.DTOs.user;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO que deve ser enviado na hora de atualizar os dados de um usuario
 public class UpdateUserDataDTO {
     private int id;
     private String userName;
@@ -36,6 +37,5 @@ public class UpdateUserDataDTO {
     public void setNewProfilePic(MultipartFile newProfilePic) {
         this.newProfilePic = newProfilePic;
     }
-
     
 }

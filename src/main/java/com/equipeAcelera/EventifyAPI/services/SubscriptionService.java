@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.equipeAcelera.EventifyAPI.DTOs.subscription.GenerateSubscriptionDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
@@ -17,7 +16,7 @@ import com.equipeAcelera.EventifyAPI.models.User.User;
 @Service
 public class SubscriptionService { 
     
-    private List<Subscription> subscriptionList = new ArrayList<>();
+    public static List<Subscription> subscriptionList = new ArrayList<>();
 
     @Autowired
     UserService userService;
@@ -25,20 +24,17 @@ public class SubscriptionService {
     @Autowired
     EventService eventService;
 
-    @Autowired
-    EmailService emailService;
-
-    public Subscription generateSubscription(GenerateSubscriptionDTO subs){
+    public Subscription generateSubscription(int userId, int eventId){
         
-        User findedUser = userService.findUserById(subs.getUserId());
+        User findedUser = userService.findUserById(userId);
 
-        Event findedEvent = eventService.getEventById(subs.getEventId());
+        Event findedEvent = eventService.getEventById(eventId);
 
         Subscription newSub = new Subscription(
             subscriptionList.size() + 1, 
-            subs.getUserId(), 
+            userId, 
             findedUser.getName(), 
-            subs.getEventId(), 
+            eventId, 
             findedEvent.getTitle(), 
             "ABSENT"
         );
@@ -57,12 +53,6 @@ public class SubscriptionService {
         
         subscriptionList.add(newSub);
 
-        try {
-            emailService.sendSubscriptionEmail((NormalUser)findedUser, newSub, findedEvent);
-        } catch (Exception e) {
-            System.err.println("Erro ao enviar e-mail: " + e.getMessage());
-        }
-
         return newSub;
     }
 
@@ -72,6 +62,14 @@ public class SubscriptionService {
         }).collect(Collectors.toList());
 
         return newSubsList;
+    }
+
+    public List<Subscription> listSubscriptionsByUserId(int userId){
+        List<Subscription> userSubscriptions = SubscriptionService.subscriptionList.stream()
+            .filter(subs -> subs.getUserId() == userId)
+            .collect(Collectors.toList());
+
+        return userSubscriptions;
     }
 
 }

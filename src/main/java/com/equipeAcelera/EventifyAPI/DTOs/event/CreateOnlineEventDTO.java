@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO que deve ser enviado para criação de evento online
 public class CreateOnlineEventDTO {
     private String title;
     private String description;

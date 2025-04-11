@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.DTOs.user;
 
+// DTO que deve ser enviado para realizar login
 public class LoginNormalUserDTO {
     private String email;
     private String password;

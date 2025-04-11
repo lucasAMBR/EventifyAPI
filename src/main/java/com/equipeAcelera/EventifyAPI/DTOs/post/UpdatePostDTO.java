@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.DTOs.post;
 
+// DTO que deve ser evniado na hora de atualizar os dados de um post
 public class UpdatePostDTO {
     private int postId;
     private int userId;

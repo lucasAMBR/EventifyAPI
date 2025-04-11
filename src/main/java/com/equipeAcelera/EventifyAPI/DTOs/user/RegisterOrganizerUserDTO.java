@@ -2,6 +2,7 @@ package com.equipeAcelera.EventifyAPI.DTOs.user;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO que deve ser enviado na hora de registrar um organizador
 public class RegisterOrganizerUserDTO {
     private String name;
     private String email;

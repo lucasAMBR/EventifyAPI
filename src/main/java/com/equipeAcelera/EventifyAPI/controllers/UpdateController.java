@@ -17,6 +17,7 @@ public class UpdateController {
     @Autowired
     UpdateService updateService;
 
+    // Atualiza Nome e/ou foto de perfil de um usuario
     @PutMapping("/userdata")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void UpdateUserName(UpdateUserDataDTO userData){

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO que deve ser enviado para criação de post comum
 public class CreatePostDTO {
     private int userId;
     private String content;

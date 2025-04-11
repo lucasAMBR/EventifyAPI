@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.DTOs.user;
 
+// DTO que sera usado para exbir as litas de seguindo e seguidores na exibição de usuario
 public class ReducedUserDTO {
     private int id;
     private String profilePicPath;

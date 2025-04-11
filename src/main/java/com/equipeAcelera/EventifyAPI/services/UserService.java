@@ -47,13 +47,21 @@ public class UserService {
             throw new UserAlreadyExistException("This email is already in use!");
         }
 
+        String profilePicPath;
+
+        if(user.getProfilePic() == null){
+            profilePicPath = "/uploads/profile_pic/default.png";
+        }else{
+            profilePicPath = ImageUtils.saveProfilePic(user.getProfilePic());
+        }
+
         NormalUser newUser = new NormalUser(
             userList.size() + 1, 
             user.getName(),
             formatedCPF, 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
-            ImageUtils.saveProfilePic(user.getProfilePic()),
+            profilePicPath,
             user.getBirth(),
             new ArrayList<>(), 
             new ArrayList<>(), 
@@ -64,11 +72,8 @@ public class UserService {
 
         userList.add(newUser);
 
-        try {
-            emailService.sendNormalWelcomeEmail(newUser);
-        } catch (Exception e) {
-            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
-        }
+        //Função para enviar o email de boas vindas para o usuário
+        emailService.sendWelcomeToNormal(newUser.getEmail(), newUser.getName());
 
         return newUser;
     }
@@ -88,13 +93,21 @@ public class UserService {
             throw new UserAlreadyExistException("This email is already in use!");
         }
 
+        String profilePicPath;
+
+        if(user.getProfilePic() == null){
+            profilePicPath = "/uploads/profile_pic/default.png";
+        }else{
+            profilePicPath = ImageUtils.saveProfilePic(user.getProfilePic());
+        }
+
         OrganizerUser newOrganizer = new OrganizerUser(
             userList.size() + 1, 
             user.getName(), 
             formatedCPF, 
             user.getEmail(), 
             CryptoUtils.encryptPassword(user.getPassword()), 
-            ImageUtils.saveProfilePic(user.getProfilePic()), 
+            profilePicPath, 
             new ArrayList<>(), 
             user.getContact(),
             new ArrayList<>(), 
@@ -105,11 +118,8 @@ public class UserService {
         
         userList.add(newOrganizer);
 
-        try {
-            emailService.sendOrganizerWelcomeEmail(newOrganizer);
-        } catch (Exception e) {
-            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
-        }
+        //Função para enviar o email de boas vindas para o organizador
+        emailService.sendWelcomeToNormal(newOrganizer.getEmail(), newOrganizer.getName());
 
         return newOrganizer;
     }

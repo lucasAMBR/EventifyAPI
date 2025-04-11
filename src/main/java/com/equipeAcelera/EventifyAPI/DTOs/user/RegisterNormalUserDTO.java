@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.web.multipart.MultipartFile;
 
+// DTO que deve ser enviado no registro de um usuario normal
 public class RegisterNormalUserDTO {
     private String name;
     private String email;

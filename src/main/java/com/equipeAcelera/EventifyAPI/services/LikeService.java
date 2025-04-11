@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.equipeAcelera.EventifyAPI.DTOs.like.AddLikeDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
@@ -23,14 +22,14 @@ public class LikeService {
     @Autowired
     PostService postService;
 
-    public Like addLike(AddLikeDTO likeData){
+    public Like addLike(int userId, int postId){
 
-        User findedUser = userService.findUserById(likeData.getUserId());
+        User findedUser = userService.findUserById(userId);
 
-        Post findedPost = postService.findPostById(likeData.getPostId());
+        Post findedPost = postService.findPostById(postId);
 
         for(Like like : likeList){         
-            if(like.getUserId() == likeData.getUserId() && like.getPostId() == likeData.getPostId()){
+            if(like.getUserId() == userId && like.getPostId() == postId){
 
             
                 List<Like> newUserLikeList = findedUser.getLikeList()
@@ -52,9 +51,9 @@ public class LikeService {
 
         Like newLike = new Like(
             likeList.size() + 1, 
-            likeData.getUserId(), 
+            userId, 
             findedUser.getName(),
-            likeData.getPostId()
+            postId
         );
 
         findedUser.getLikeList().add(newLike);

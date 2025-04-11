@@ -3,6 +3,7 @@ package com.equipeAcelera.EventifyAPI.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedF
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Event.OnlineEvent;
 import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
+import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -22,7 +24,7 @@ import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
 @Service
 public class EventService {
-    private static List<Event> eventList = new ArrayList<>();
+    public static List<Event> eventList = new ArrayList<>();
 
     @Autowired
     UserService userService;
@@ -93,6 +95,34 @@ public class EventService {
         eventList.add(newEvent);
 
         return newEvent;
+    }
+
+    // Cancela um evento e avisa os inscritos
+    public void cancelEvent(int eventId){
+        Event findedEvent = getEventById(eventId);
+
+        List<Subscription> subsList = findedEvent.getSubscriptionList();
+
+        for(Subscription sub : subsList){
+            User findedUser = userService.findUserById(sub.getUserId());
+
+            ((NormalUser) findedUser).getSubscriptions().remove(sub);
+
+            // Inserir Aqui o email avisando do cancelamento do evento para todos os inscritos
+        }
+
+        findedEvent.setSubscriptionList(new ArrayList<>());
+
+        findedEvent.setActive(false);
+    }
+
+    // Lista todos os eventos de um usuario
+    public List<Event> getAllEventFromUserById(int userId){
+        List<Event> userEventList = eventList.stream()
+            .filter(event -> event.getOrganizerId() == userId)
+            .collect(Collectors.toList());
+        
+        return userEventList;
     }
 
     // Pega um evento pelo id
