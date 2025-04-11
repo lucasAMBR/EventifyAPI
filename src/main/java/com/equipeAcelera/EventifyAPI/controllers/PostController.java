@@ -19,6 +19,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.post.CreateEventPostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
+import com.equipeAcelera.EventifyAPI.services.EventPostService;
 import com.equipeAcelera.EventifyAPI.services.PostLikeService;
 import com.equipeAcelera.EventifyAPI.services.PostService;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
@@ -36,6 +37,9 @@ public class PostController {
     @Autowired
     PostLikeService postLikeService;
 
+    @Autowired
+    EventPostService eventPostService;
+
     // Cria uma postagem
     @PostMapping("/create")
     public ResponseEntity<Post> CreatePost(@ModelAttribute CreatePostDTO postData){
@@ -47,7 +51,7 @@ public class PostController {
     // Cria uma postagem no feed do evento
     @PostMapping("/create/event")
     public ResponseEntity<Post> createEventPost(@ModelAttribute CreateEventPostDTO postData){
-        Post newEventPost = postService.createEventPost(postData);
+        Post newEventPost = eventPostService.createEventPost(postData);
 
         return ResponseEntity.ok().body(newEventPost);
     }
