@@ -21,7 +21,6 @@ import com.equipeAcelera.EventifyAPI.utils.FormatationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ValidationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.equipeAcelera.EventifyAPI.services.EmailService;
 
 @Service
 public class UserService {
@@ -72,22 +71,8 @@ public class UserService {
 
         userList.add(newUser);
 
-        //Função para enviar o email de boas vindas para o usuário (modificar HTML depois)
-        String assunto = "Cadastro realizado com sucesso!";
-        String html = """
-        <html>
-            <body>
-                <h2 style='color: green;'>Bem-vindo(a) usuário, """ + user.getName() + """
-            </body>
-        </html>
-        """;
-
-        try {
-            emailService.sendHtmlEmail(user.getEmail(), assunto, html);
-        } catch (Exception e) {
-            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
-        }
-
+        //Função para enviar o email de boas vindas para o usuário
+        emailService.sendWelcomeToNormal(newUser.getEmail(), newUser.getName());
 
         return newUser;
     }
@@ -132,22 +117,8 @@ public class UserService {
         
         userList.add(newOrganizer);
 
-        //Função para enviar o email de boas vindas para o organizador (modificar HTML depois)
-        String assunto = "Cadastro de organizador realizado!";
-        String html = """
-        <html>
-            <body>
-                <h2 style='color: blue;'>Olá, organizador """ + user.getName() + """
-            </body>
-        </html>
-        """;
-
-        try {
-            emailService.sendHtmlEmail(user.getEmail(), assunto, html);
-        } catch (Exception e) {
-            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
-        }
-
+        //Função para enviar o email de boas vindas para o organizador
+        emailService.sendWelcomeToNormal(newOrganizer.getEmail(), newOrganizer.getName());
 
         return newOrganizer;
     }
