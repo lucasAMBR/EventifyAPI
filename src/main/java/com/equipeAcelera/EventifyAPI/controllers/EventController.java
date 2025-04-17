@@ -21,6 +21,7 @@ import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.services.EventService;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
 
+
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
@@ -65,6 +66,20 @@ public class EventController {
         List<Event> userEventList = eventService.getAllEventFromUserById(userId);
 
         return ResponseEntity.ok().body(userEventList);
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<List<Event>> getPopularEvents() {
+        List<Event> popularEvents = eventService.getPopularEvents();
+
+        return ResponseEntity.ok().body(popularEvents);
+    }
+    
+    @GetMapping("/recent")
+    public ResponseEntity<List<Event>> getRecentEvents() {
+        List<Event> recentEvents = eventService.getOrdenedRecentEvents();
+
+        return ResponseEntity.ok().body(recentEvents);
     }
 
     // Acha um evento pelo Id
