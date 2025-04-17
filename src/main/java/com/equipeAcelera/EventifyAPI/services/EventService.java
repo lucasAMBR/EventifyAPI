@@ -125,6 +125,24 @@ public class EventService {
         return userEventList;
     }
 
+    public List<Event> getPopularEvents(){
+        List<Event> popularEvents = eventList.stream()
+            .sorted((event1, event2) -> Integer.compare(event2.getSubscriptionList().size(), event1.getSubscriptionList().size()))
+            .limit(4)
+            .collect(Collectors.toList());
+        
+        return popularEvents;
+    }
+
+    public List<Event> getOrdenedRecentEvents(){
+        List<Event> recentEvents = eventList.stream()
+            .filter(event -> event.isActive())
+            .sorted((event1, event2) -> Integer.compare(event2.getId(), event1.getId()))
+            .limit(20)
+            .collect(Collectors.toList());
+        
+        return recentEvents;
+    }
     // Pega um evento pelo id
     public Event getEventById(int id){
         for(Event event : eventList){
