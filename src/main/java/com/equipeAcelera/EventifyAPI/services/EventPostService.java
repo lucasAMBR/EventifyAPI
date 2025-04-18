@@ -39,6 +39,7 @@ public class EventPostService {
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 
             new ArrayList<>(),
+            new ArrayList<>(),
             findedEvent.getId(),
             LocalDateTime.now()
         );

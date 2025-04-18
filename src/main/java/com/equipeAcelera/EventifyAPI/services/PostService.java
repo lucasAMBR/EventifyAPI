@@ -39,6 +39,7 @@ public class PostService {
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 
             new ArrayList<>(),
+            new ArrayList<>(),
             LocalDateTime.now()
         );
                 
