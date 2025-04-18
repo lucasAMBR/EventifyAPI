@@ -3,6 +3,7 @@ package com.equipeAcelera.EventifyAPI.models.Post;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.equipeAcelera.EventifyAPI.models.Comments.Comment;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 
 public class Post {
@@ -12,15 +13,17 @@ public class Post {
     protected String content;
     protected List<String> imagesPath;
     protected List<Like> likeList;
+    protected List<Comment> commentList;
     protected LocalDateTime date;
     
-    public Post(int id, int userId, String userName, String content, List<String> imagesPath, List<Like> likeList, LocalDateTime date) {
+    public Post(int id, int userId, String userName, String content, List<String> imagesPath, List<Like> likeList, List<Comment> commentList, LocalDateTime date) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
         this.content = content;
         this.imagesPath = imagesPath;
         this.likeList = likeList;
+        this.commentList = commentList;
         this.date = date;
     }
     
@@ -71,5 +74,13 @@ public class Post {
         this.date = date;
     }
 
-    
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+        
 }
