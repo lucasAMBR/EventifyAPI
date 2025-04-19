@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.UpdateUserDataDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
+import com.equipeAcelera.EventifyAPI.models.Comments.Comment;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
@@ -33,6 +34,9 @@ public class UpdateService {
 
     @Autowired
     SubscriptionService subscriptionService;
+
+    @Autowired
+    CommentService commentService;
 
     @Autowired 
     LikeService likeService;
@@ -65,6 +69,12 @@ public class UpdateService {
             for(Subscription subs : subscriptionService.listAllSubs()){
                 if(subs.getUserId() == findedUser.getId()){
                     subs.setUserName(userData.getUserName());
+                }
+            }
+
+            for(Comment comment : CommentService.commentList){
+                if(comment.getUserId() == findedUser.getId()){
+                    comment.setUserName(findedUser.getName());
                 }
             }
         }
