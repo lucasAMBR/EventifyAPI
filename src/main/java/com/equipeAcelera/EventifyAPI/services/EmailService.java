@@ -23,7 +23,7 @@ public class EmailService {
 
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(htmlContent);
+            helper.setText(htmlContent, true);
 
             mailSender.send(message);
             System.out.println("Email enviado para " + to);
@@ -41,7 +41,6 @@ public class EmailService {
                     <h2 style='color: #2e7d32;'>Olá, <strong>%s</strong>!</h2>
                     <p>Sua conta de <strong>usuário</strong> foi criada no Eventify.</p>
                     <p>Descubra eventos incríveis e aproveite!</p>
-                    <p><a href='https://eventify.com/explore' style='color: #1e88e5;'>Explore eventos</a></p>
                     <p style='color: #757575;'>Atenciosamente,<br/>Equipe Eventify</p>
                 </body>
             </html>
@@ -58,12 +57,25 @@ public class EmailService {
                     <h2 style='color: #6a1b9a;'>Olá, <strong>%s</strong>!</h2>
                     <p>Sua conta de <strong>organizador</strong> está pronta!</p>
                     <p>Comece a criar eventos e atrair participantes.</p>
-                    <p><a href='https://eventify.com/organizer/dashboard' style='color: #1e88e5;'>Acesse seu painel</a></p>
                     <p style='color: #757575;'>Atenciosamente,<br/>Equipe Eventify</p>
                 </body>
             </html>
             """.formatted(userName);
 
         sendEmail(email, "🚀 Bem-vindo, Organizador!", html);
+    }
+
+    public void sendSubscriptionConfirmation(String email, String userName) {
+        String html = """
+            <html>
+                <body style='font-family: Arial, sans-serif;'>
+                    <h2 style='color: #6a1b9a;'>Olá, <strong>%s</strong>!</h2>
+                    <p>Sua participação no evento está confirmada!</p>
+                    <p style='color: #757575;'>Atenciosamente,<br/>Equipe Eventify</p>
+                </body>
+            </html>
+            """.formatted(userName);
+
+        sendEmail(email, "🚀 Sua inscrição foi confirmada!", html);
     }
 }

@@ -118,7 +118,7 @@ public class UserService {
         userList.add(newOrganizer);
 
         //Função para enviar o email de boas vindas para o organizador
-        emailService.sendWelcomeToNormal(newOrganizer.getEmail(), newOrganizer.getName());
+        emailService.sendWelcomeToOrganizer(newOrganizer.getEmail(), newOrganizer.getName());
 
         return newOrganizer;
     }
