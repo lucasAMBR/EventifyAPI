@@ -24,11 +24,11 @@ public class GeocodingUtils {
         ResponseEntity<Map[]> response = restTemplate.getForEntity(url, Map[].class);
 
         if(response.getStatusCode().is2xxSuccessful() && response.getBody() != null && response.getBody().length > 0){
-            Map<String, String> latAndLon = (Map<String, String>) response.getBody()[0];
+            Map<String, Object> latAndLon = (Map<String, Object>) response.getBody()[0];
 
             return Map.of(
-                "latitude", Double.parseDouble(latAndLon.get("lat")),
-                "longitude", Double.parseDouble(latAndLon.get("lon"))
+                "latitude", Double.valueOf(latAndLon.get("lat").toString()),
+                "longitude", Double.valueOf(latAndLon.get("lon").toString())
             );
         } else {
             throw new DataNotFoundException("Location not found!");
