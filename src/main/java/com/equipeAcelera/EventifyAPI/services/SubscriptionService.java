@@ -23,6 +23,8 @@ public class SubscriptionService {
 
     @Autowired
     EventService eventService;
+    @Autowired
+    private EmailService emailService;
 
     public Subscription generateSubscription(int userId, int eventId){
         
@@ -52,6 +54,8 @@ public class SubscriptionService {
         }
         
         subscriptionList.add(newSub);
+
+        emailService.sendSubscriptionConfirmation(findedUser.getEmail(), findedUser.getName());
 
         return newSub;
     }
