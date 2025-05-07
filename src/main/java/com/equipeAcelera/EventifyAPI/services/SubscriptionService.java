@@ -1,5 +1,7 @@
 package com.equipeAcelera.EventifyAPI.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +44,20 @@ public class SubscriptionService {
         );
 
         if(findedEvent.getSubscriptionList().size() < findedEvent.getGuestLimit()){
+
             findedEvent.getSubscriptionList().add(newSub);
+
+            if(findedEvent.getSubscriptionList().size() == findedEvent.getGuestLimit()) {
+                String participantsList = formatParticipantsList(findedEvent.getSubscriptionList());
+
+                User organizer = userService.findUserById(findedEvent.getOrganizerId());
+                emailService.sendEventFullNotification(
+                        organizer.getEmail(),
+                        organizer.getName(),
+                        findedEvent.getTitle(),
+                        findedEvent.getGuestLimit(),
+                        participantsList
+                );}
         }else{
             throw new UnauthorizedFunctionAccessException("Guest limit!");
         }
@@ -74,6 +89,38 @@ public class SubscriptionService {
             .collect(Collectors.toList());
 
         return userSubscriptions;
+    }
+
+    private String formatParticipantsList(List<Subscription> subscriptions) {
+        StringBuilder sb = new StringBuilder("""
+        <table style='border-collapse: collapse; width: 100%%; margin: 20px 0;'>
+            <thead>
+                <tr style='background-color: #f2f2f2;'>
+                    <th style='padding: 12px; text-align: left; border: 1px solid #ddd;'>Nome</th>
+                    <th style='padding: 12px; text-align: left; border: 1px solid #ddd;'>Email</th>
+                    <th style='padding: 12px; text-align: left; border: 1px solid #ddd;'>Data de Inscrição</th>
+                </tr>
+            </thead>
+            <tbody>
+        """);
+
+        for (Subscription sub : subscriptions) {
+            User user = userService.findUserById(sub.getUserId());
+            sb.append(String.format("""
+                <tr>
+                    <td style='padding: 12px; border: 1px solid #ddd;'>%s</td>
+                    <td style='padding: 12px; border: 1px solid #ddd;'>%s</td>
+                    <td style='padding: 12px; border: 1px solid #ddd;'>%s</td>
+                </tr>
+            """,
+                    user.getName(),
+                    user.getEmail(),
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+            ));
+        }
+
+        sb.append("</tbody></table>");
+        return sb.toString();
     }
 
 }

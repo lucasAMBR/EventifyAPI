@@ -78,4 +78,24 @@ public class EmailService {
 
         sendEmail(email, "🚀 Sua inscrição foi confirmada!", html);
     }
+
+    public void sendEventFullNotification(String organizerEmail, String organizerName,
+                                          String eventTitle, int guestLimit, String participantsList) {
+        String html = """
+        <html>
+            <body style='font-family: Arial, sans-serif;'>
+                <h2 style='color: #d32f2f;'>Parabéns, <strong>%s</strong>!</h2>
+                <p>Seu evento <strong>%s</strong> atingiu o limite máximo de <strong>%d</strong> participantes!</p>
+                
+                <h3>Lista de Participantes:</h3>
+                %s
+                
+                <p style='color: #757575; margin-top: 20px;'>Atenciosamente,<br/>Equipe Eventify</p>
+            </body>
+        </html>
+        """.formatted(organizerName, eventTitle, guestLimit, participantsList);
+
+        sendEmail(organizerEmail, "🎉 Evento lotado: " + eventTitle, html);
+    }
+
 }
