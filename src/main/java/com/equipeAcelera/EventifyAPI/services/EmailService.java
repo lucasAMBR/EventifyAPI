@@ -65,6 +65,7 @@ public class EmailService {
         sendEmail(email, "🚀 Bem-vindo, Organizador!", html);
     }
 
+    @Async
     public void sendSubscriptionConfirmation(String email, String userName) {
         String html = """
             <html>
@@ -79,6 +80,7 @@ public class EmailService {
         sendEmail(email, "🚀 Sua inscrição foi confirmada!", html);
     }
 
+    @Async
     public void sendEventFullNotification(String organizerEmail, String organizerName,
                                           String eventTitle, int guestLimit, String participantsList) {
         String html = """
@@ -96,6 +98,23 @@ public class EmailService {
         """.formatted(organizerName, eventTitle, guestLimit, participantsList);
 
         sendEmail(organizerEmail, "🎉 Evento lotado: " + eventTitle, html);
+    }
+
+    @Async
+    public void sendTempPasswordEmail(String email, String userName, String tempPassword) {
+        String html = """
+        <html>
+            <body style='font-family: Arial, sans-serif;'>
+                <h2 style='color: #2e7d32;'>Olá, <strong>%s</strong>!</h2>
+                <p>Você solicitou uma redefinição de senha no Eventify.</p>
+                <p>Sua senha temporária é: <strong>%s</strong></p>
+                <p>Por favor, altere esta senha após o login.</p>
+                <p style='color: #757575;'>Atenciosamente,<br/>Equipe Eventify</p>
+            </body>
+        </html>
+        """.formatted(userName, tempPassword);
+
+        sendEmail(email, "🔑 Senha temporária - Eventify", html);
     }
 
 }
