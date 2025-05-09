@@ -3,6 +3,7 @@ package com.equipeAcelera.EventifyAPI.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import com.equipeAcelera.EventifyAPI.utils.FormatationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ValidationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.RandomStringUtils;
 
 @Service
 public class UserService {
@@ -123,6 +125,37 @@ public class UserService {
         return newOrganizer;
     }
 
+    //Função para gerar e enviar senha temporária
+    public void generateAndSendTempPassword(String email){
+        User user = findUserByEmail(email);
+
+        String tempPassword = RandomStringUtils.randomAlphanumeric(6);
+
+        user.setPassword(CryptoUtils.encryptPassword(tempPassword));
+
+        emailService.sendTempPasswordEmail(
+                user.getEmail(),
+                user.getName(),
+                tempPassword
+        );
+    }
+
+    //Função para trocar senha
+    public void changePassword(String email, String currentPassword, String newPassword){
+
+        User user = findUserByEmail(email);
+
+        if (!CryptoUtils.verifyPassword(currentPassword, user.getPassword())) {
+            throw new InvalidArgumentException("Current password is incorrect!");
+        }
+
+        if (newPassword.length() < 6){
+            throw new InvalidArgumentException("New password must be at least 6 characters!");
+        }
+
+        user.setPassword(CryptoUtils.encryptPassword(newPassword));
+    }
+
     public void manageFollow(int actorId, int userId){
         
         User findedActor = findUserById(actorId);
@@ -176,6 +209,12 @@ public class UserService {
         throw new DataNotFoundException("User not found, invalid id!");
     }
 
+    public User findUserByEmail(String email){
+        return userList.stream()
+                .filter(user -> user.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElseThrow(() -> new DataNotFoundException("User not found, invalid email!"));
+    }
 
     // Retorna lista de usuarios
     public List<User> viewUserList(){

@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.models.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
@@ -14,6 +15,7 @@ public class User {
     @JsonIgnore
     protected String password;
     protected String profilePicPath;
+    protected LocalDateTime lastPasswordUpdate;
     protected List<Post> postList;
     protected List<Like> likeList;
     protected List<User> following;
