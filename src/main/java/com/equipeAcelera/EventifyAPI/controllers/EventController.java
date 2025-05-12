@@ -84,9 +84,16 @@ public class EventController {
 
     // Acha um evento pelo Id
     @GetMapping("/find/{id}")
-    public ResponseEntity<Event> FindEventById(int id){
+    public ResponseEntity<Event> FindEventById(@PathVariable int id){
         Event findedEvent = eventService.getEventById(id);
 
         return ResponseEntity.ok().body(findedEvent);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Event>> GetAllEventList(){
+        List<Event> eventList = eventService.getEventList();
+
+        return ResponseEntity.ok().body(eventList);
     }
 }
