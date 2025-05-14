@@ -3,7 +3,6 @@ package com.equipeAcelera.EventifyAPI.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 

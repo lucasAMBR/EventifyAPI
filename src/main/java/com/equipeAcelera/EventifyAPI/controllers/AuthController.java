@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equipeAcelera.EventifyAPI.DTOs.auth.ChangePasswordRequestDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.auth.LoginResponseDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.LoginNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.models.LoginHistory.LoginHistory;
-import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.services.AuthService;
 import com.equipeAcelera.EventifyAPI.services.UserService;
 
@@ -32,16 +33,16 @@ public class AuthController {
     
     // Realiza o login, retorna um objeto User e captura o ip e adiciona um item no historico de login da conta
     @PostMapping("/login")
-    public ResponseEntity<User> Login(@ModelAttribute LoginNormalUserDTO userCredentials, HttpServletRequest request){
+    public ResponseEntity<LoginResponseDTO> Login(@ModelAttribute LoginNormalUserDTO userCredentials, HttpServletRequest request){
         
         String clientIp = request.getHeader("X-Forwarded-For");
         if (clientIp == null || clientIp.isEmpty()) {
             clientIp = request.getRemoteAddr();
         }
         
-        User user = authService.loginNormalUser(userCredentials, clientIp);
+        LoginResponseDTO loginData = authService.loginNormalUser(userCredentials, clientIp);
 
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(loginData);
     }
 
     // Puxa o historico de logins da conta pelo ID dela
@@ -70,34 +71,4 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-    public static class ChangePasswordRequestDTO {
-        private String email;
-        private String currentPassword;
-        private String newPassword;
-
-        // Getters e Setters
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getCurrentPassword() {
-            return currentPassword;
-        }
-
-        public void setCurrentPassword(String currentPassword) {
-            this.currentPassword = currentPassword;
-        }
-
-        public String getNewPassword() {
-            return newPassword;
-        }
-
-        public void setNewPassword(String newPassword) {
-            this.newPassword = newPassword;
-        }
-    }
 }
