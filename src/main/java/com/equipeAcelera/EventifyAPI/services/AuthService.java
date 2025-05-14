@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.auth.LoginResponseDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.LoginNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.LoginHistory.LoginHistory;
+import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
 
@@ -18,7 +20,7 @@ public class AuthService {
     private static List<LoginHistory> loginHistoryList = new ArrayList<>();
 
     // Realiza o login, retorna User e adiciona historico
-    public User loginNormalUser(LoginNormalUserDTO userCredentials, String ip){
+    public LoginResponseDTO loginNormalUser(LoginNormalUserDTO userCredentials, String ip){
         
         for(User user : UserService.userList){
             if(user.getEmail().equals(userCredentials.getEmail())){
@@ -28,7 +30,11 @@ public class AuthService {
 
                     loginHistoryList.add(loginHistory);
 
-                    return user;
+                    if(user instanceof NormalUser){
+                        return new LoginResponseDTO(user.getId(), "DEFAULT");
+                    }else{
+                        return new LoginResponseDTO(user.getId(), "ORGANIZER");
+                    }
                 }
             }
         }
