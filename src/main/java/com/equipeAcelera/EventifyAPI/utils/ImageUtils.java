@@ -19,23 +19,28 @@ import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.ImageLimitExc
 public class ImageUtils {
     public static String saveProfilePic(MultipartFile profilePic) {
         try {
-            String uploadDir = "src/main/resources/static/uploads/profile_pic/";
+            String uploadDir = "uploads/profile_pic/";
             Files.createDirectories(Paths.get(uploadDir));
-
+    
             long timestamp = System.currentTimeMillis();
-            String fileName = timestamp + "_" + profilePic.getOriginalFilename().replaceAll("\\s+", "");
+            String originalName = profilePic.getOriginalFilename().replaceAll("\\s+", "");
+            String fileName = timestamp + "_" + originalName;
+    
             String filePath = uploadDir + fileName;
             File outputFile = new File(filePath);
-
+    
             BufferedImage originalImage = ImageIO.read(profilePic.getInputStream());
             BufferedImage croppedImage = cropToSquare(originalImage, 300);
+    
             ImageIO.write(croppedImage, "jpg", outputFile);
-
+    
             return "/uploads/profile_pic/" + fileName;
+    
         } catch (IOException e) {
             throw new RuntimeException("Erro ao salvar a imagem", e);
         }
     }
+    
 
     private static BufferedImage cropToSquare(BufferedImage source, int size) {
         int width = source.getWidth();
