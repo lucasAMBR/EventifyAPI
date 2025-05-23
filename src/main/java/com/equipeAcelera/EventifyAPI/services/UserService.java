@@ -21,7 +21,6 @@ import com.equipeAcelera.EventifyAPI.utils.FormatationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ValidationUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.apache.commons.lang3.RandomStringUtils;
 
 @Service
 public class UserService {

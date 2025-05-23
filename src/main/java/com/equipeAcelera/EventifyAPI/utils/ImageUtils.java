@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,35 +61,42 @@ public class ImageUtils {
         return resized;
     }
 
-    public static List<String> savePostPics(List<MultipartFile> imageList){
-        
-        if(imageList.size() > 3){
-            throw new ImageLimitException("limited for 3 imagem per post!");
-        }
-
-        List<String> postPicsPaths = new ArrayList<>();
-
-        for(MultipartFile image : imageList){
-            try {
-                String uploadDir = "src/main/resources/static/uploads/post_images/";
-                Files.createDirectories(Paths.get(uploadDir));
-    
-                long timestamp = System.currentTimeMillis();
-    
-                // Usei um regex para tirar todos os espacos do nome dos arquivos
-                String fileName = timestamp +"_"+ image.getOriginalFilename().replaceAll("\\s+", "");
-                Path filePath = Paths.get(uploadDir + fileName);
-                Files.write(filePath, image.getBytes());
-                String photoUrl = "/uploads/post_images/" + fileName;
-                
-                postPicsPaths.add(photoUrl);
-            } catch (IOException e) {
-                throw new RuntimeException("Erro ao salvar a imagem", e);
-            }
-        }
-
-        return postPicsPaths;
+    public static List<String> savePostPics(List<MultipartFile> imageList) {
+    if (imageList.size() > 3) {
+        throw new ImageLimitException("Limited to 3 images per post!");
     }
+
+    List<String> postPicsPaths = new ArrayList<>();
+    String uploadDir = "uploads/post_images/";
+
+    try {
+        Files.createDirectories(Paths.get(uploadDir));
+    } catch (IOException e) {
+        throw new RuntimeException("Erro ao criar diretório de imagens de post", e);
+    }
+
+    for (MultipartFile image : imageList) {
+        try {
+            long timestamp = System.currentTimeMillis();
+            String originalName = image.getOriginalFilename().replaceAll("\\s+", "");
+            String fileName = timestamp + "_" + originalName;
+
+            String filePath = uploadDir + fileName;
+            File outputFile = new File(filePath);
+
+            BufferedImage originalImage = ImageIO.read(image.getInputStream());
+            ImageIO.write(originalImage, "jpg", outputFile);
+
+            String photoUrl = "/uploads/post_images/" + fileName;
+            postPicsPaths.add(photoUrl);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar a imagem do post", e);
+        }
+    }
+
+    return postPicsPaths;
+}
 
     public static String saveEventBannerPic(MultipartFile image) {
     try {
