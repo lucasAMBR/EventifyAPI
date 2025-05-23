@@ -124,31 +124,11 @@ public class UserService {
         return newOrganizer;
     }
 
-    //Função para gerar e enviar senha temporária
-    public void generateAndSendTempPassword(String email){
-        User user = findUserByEmail(email);
-
-        String tempPassword = RandomStringUtils.randomAlphanumeric(6);
-
-        user.setPassword(CryptoUtils.encryptPassword(tempPassword));
-
-        emailService.sendTempPasswordEmail(
-                user.getEmail(),
-                user.getName(),
-                tempPassword
-        );
-    }
-
     //Função para trocar senha
-    public void changePassword(String email, String currentPassword, String newPassword){
-
+    public void changePassword(String email, String verificationCode, String newPassword) {
         User user = findUserByEmail(email);
 
-        if (!CryptoUtils.verifyPassword(currentPassword, user.getPassword())) {
-            throw new InvalidArgumentException("Current password is incorrect!");
-        }
-
-        if (newPassword.length() < 6){
+        if (newPassword.length() < 6) {
             throw new InvalidArgumentException("New password must be at least 6 characters!");
         }
 
