@@ -92,22 +92,26 @@ public class ImageUtils {
         return postPicsPaths;
     }
 
-    public static String saveEventBannerPic(MultipartFile image){
-        try {
-            String uploadDir = "src/main/resources/static/uploads/event_banner/";
-            Files.createDirectories(Paths.get(uploadDir));
+    public static String saveEventBannerPic(MultipartFile image) {
+    try {
+        String uploadDir = "uploads/event_banner/";
+        Files.createDirectories(Paths.get(uploadDir));
 
-            long timestamp = System.currentTimeMillis();
+        long timestamp = System.currentTimeMillis();
+        String originalName = image.getOriginalFilename().replaceAll("\\s+", "");
+        String fileName = timestamp + "_" + originalName;
 
-            // Usei um regex para tirar todos os espacos do nome dos arquivos
-            String fileName = timestamp +"_"+ image.getOriginalFilename().replaceAll("\\s+", "");
-            Path filePath = Paths.get(uploadDir + fileName);
-            Files.write(filePath, image.getBytes());
-            String photoUrl = "/uploads/event_banner/" + fileName;
-    
-            return photoUrl;
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar a imagem", e);
-        }       
+        String filePath = uploadDir + fileName;
+        File outputFile = new File(filePath);
+
+        BufferedImage originalImage = ImageIO.read(image.getInputStream());
+        ImageIO.write(originalImage, "jpg", outputFile); 
+
+        return "/uploads/event_banner/" + fileName;
+
+    } catch (IOException e) {
+        throw new RuntimeException("Erro ao salvar a imagem do evento", e);
     }
+}
+
 }
