@@ -101,20 +101,19 @@ public class EmailService {
     }
 
     @Async
-    public void sendTempPasswordEmail(String email, String userName, String tempPassword) {
+    public void sendResetCodeEmail(String email, String userName, String code) {
         String html = """
-        <html>
-            <body style='font-family: Arial, sans-serif;'>
-                <h2 style='color: #2e7d32;'>Olá, <strong>%s</strong>!</h2>
-                <p>Você solicitou uma redefinição de senha no Eventify.</p>
-                <p>Sua senha temporária é: <strong>%s</strong></p>
-                <p>Por favor, altere esta senha após o login.</p>
-                <p style='color: #757575;'>Atenciosamente,<br/>Equipe Eventify</p>
-            </body>
-        </html>
-        """.formatted(userName, tempPassword);
+    <html>
+        <body style='font-family: Arial, sans-serif;'>
+            <h2 style='color: #2e7d32;'>Olá, <strong>%s</strong>!</h2>
+            <p>Você solicitou uma redefinição de senha no Eventify.</p>
+            <p>Seu código de verificação é: <strong>%s</strong></p>
+            <p>Este código expira em 15 minutos.</p>
+            <p style='color: #757575;'>Atenciosamente,<br/>Equipe Eventify</p>
+        </body>
+    </html>
+    """.formatted(userName, code);
 
-        sendEmail(email, "🔑 Senha temporária - Eventify", html);
+        sendEmail(email, "🔑 Código de verificação - Eventify", html);
     }
-
 }

@@ -2,6 +2,13 @@ package com.equipeAcelera.EventifyAPI.controllers;
 
 import java.util.List;
 
+import com.equipeAcelera.EventifyAPI.DTOs.auth.EmailRequestDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.auth.ResetPasswordRequestDTO;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
+import com.equipeAcelera.EventifyAPI.models.User.User;
+import com.equipeAcelera.EventifyAPI.services.EmailService;
+import com.equipeAcelera.EventifyAPI.services.PasswordResetService;
+import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.equipeAcelera.EventifyAPI.DTOs.auth.ChangePasswordRequestDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.auth.LoginResponseDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.LoginNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.models.LoginHistory.LoginHistory;
@@ -30,7 +35,11 @@ public class AuthController {
     
     @Autowired
     AuthService authService;
-    
+    @Autowired
+    private PasswordResetService passwordResetService;
+    @Autowired
+    private EmailService emailService;
+
     // Realiza o login, retorna um objeto User e captura o ip e adiciona um item no historico de login da conta
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> Login(@ModelAttribute LoginNormalUserDTO userCredentials, HttpServletRequest request){
@@ -54,20 +63,25 @@ public class AuthController {
     }
 
     // Endpoint para solicitar reset de senha
-    @PostMapping("/request-password-reset")
-    public ResponseEntity<Void> requestPasswordReset(@RequestParam String email) {
-        userService.generateAndSendTempPassword(email);
+    @PostMapping("/request-reset-code")
+    public ResponseEntity<Void> requestResetCode(@RequestBody EmailRequestDTO request) {
+        User user = userService.findUserByEmail(request.getEmail());
+        String token = passwordResetService.generateResetToken(request.getEmail()); // Envia email
+        emailService.sendResetCodeEmail(user.getEmail(), user.getName(), token);
         return ResponseEntity.ok().build();
     }
 
-    // Endpoint para trocar senha
-    @PostMapping("/change-password")
-    public ResponseEntity<Void> changePassword(@RequestBody ChangePasswordRequestDTO request) {
-        userService.changePassword(
-                request.getEmail(),
-                request.getCurrentPassword(),
-                request.getNewPassword()
-        );
+    // Endpoint para resetar senha (token e email no body)
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
+        if (!passwordResetService.validateToken(request.getEmail(), request.getToken())) {
+            throw new InvalidArgumentException("Código inválido ou expirado");
+        }
+
+        User user = userService.findUserByEmail(request.getEmail());
+        user.setPassword(CryptoUtils.encryptPassword(request.getNewPassword()));
+        passwordResetService.removeToken(request.getEmail());
+
         return ResponseEntity.ok().build();
     }
 
