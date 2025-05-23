@@ -3,21 +3,25 @@ package com.equipeAcelera.EventifyAPI.services;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.event.UpdatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.UpdateUserDataDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Comments.Comment;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
+import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
+import com.equipeAcelera.EventifyAPI.utils.GeocodingUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
 
 @Service
@@ -97,6 +101,55 @@ public class UpdateService {
 
             findedUser.setProfilePicPath(newProfilePicPath);
         }
+    }
+
+    public boolean updatePresentialEvent(UpdatePresentialEventDTO newEventData){
+        User organizerUser = userService.findUserById(newEventData.getOrganizerId());
+
+        Event event = eventService.getEventById(newEventData.getEventId());
+
+        if(organizerUser.getId() != event.getOrganizerId()){
+            throw new UnauthorizedFunctionAccessException("You cannot update someone event");
+        }
+
+        if(newEventData.getNewTitle() != null){
+            event.setTitle(newEventData.getNewTitle());
+        }
+
+        if(newEventData.getNewDescription() != null){
+            event.setDescription(newEventData.getNewDescription());
+        }
+
+        if(newEventData.getNewDate() != null){
+            event.setDate(newEventData.getNewDate());
+        }
+
+        if(newEventData.getNewHour() != null){
+            event.setHour(newEventData.getNewHour());
+        }
+
+        if(newEventData.getNewGuestLimit() > 0){
+            event.setGuestLimit(newEventData.getNewGuestLimit());
+        }
+
+        if(newEventData.getNewBannerImage() != null){
+            String imagePath =ImageUtils.saveEventBannerPic(newEventData.getNewBannerImage());
+
+            event.setImagePath(imagePath);
+        }
+
+        if(newEventData.getNewLocation() != null){
+            if(event instanceof PresentialEvent){
+                ((PresentialEvent) event).setLocation(newEventData.getNewLocation());
+
+                Map<String, Double> latitudeAndLongitude = GeocodingUtils.getLatitudeLongitude(newEventData.getNewLocation());
+
+                ((PresentialEvent) event).setLatitude(latitudeAndLongitude.get("latitude"));
+                ((PresentialEvent) event).setLongitude(latitudeAndLongitude.get("longitude"));
+            }
+        }
+
+        return true;
     }
 
     public Post UpdatePostContent(UpdatePostDTO updateData){

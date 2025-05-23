@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreateOnlineEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.event.CreatePresentialEventDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.event.UpdatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.services.EventService;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
@@ -46,6 +47,12 @@ public class EventController {
         Event newEvent = eventService.createOnlineEvent(eventData);
 
         return ResponseEntity.ok().body(newEvent);
+    }
+
+    @PutMapping("/update/")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void UpdateEventData(@ModelAttribute UpdatePresentialEventDTO eventData){
+        updateService.updatePresentialEvent(eventData);
     }
 
     @PutMapping("/cancel/{eventId}")
