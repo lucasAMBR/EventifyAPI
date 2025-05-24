@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.comment.CreateCommentDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.comment.UpdateCommentDTO;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
 import com.equipeAcelera.EventifyAPI.models.Comments.Comment;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -42,6 +44,24 @@ public class CommentService {
         commentList.add(newComment);
 
         return newComment;
+    }
+
+    public Comment FindCommentById(int id){
+        for (Comment comment : commentList) {
+            if(comment.getId() == id){
+                return comment;
+            }
+        }
+
+        throw new DataNotFoundException("Not found");
+    }
+
+    public Comment UpdateComment(int id, UpdateCommentDTO newContent){
+        Comment foundedComment = FindCommentById(id);
+
+        foundedComment.setContent(newContent.getContent());
+
+        return foundedComment;
     }
 
 }
