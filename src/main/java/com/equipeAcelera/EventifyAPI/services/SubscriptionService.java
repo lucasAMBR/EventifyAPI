@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
+import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -25,8 +27,12 @@ public class SubscriptionService {
 
     @Autowired
     EventService eventService;
+
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private PostService postService;
 
     public Subscription generateSubscription(int userId, int eventId){
         
@@ -71,6 +77,14 @@ public class SubscriptionService {
         subscriptionList.add(newSub);
 
         emailService.sendSubscriptionConfirmation(findedUser.getEmail(), findedUser.getName());
+
+        String autoPostContent = findedUser.getName() + " just singed up for the event " + findedEvent.getTitle() + "! it's going to be amazing - and you can join too. Secure your spot";
+
+        CreatePostDTO autoPost = new CreatePostDTO(userId, autoPostContent, new ArrayList<>());
+
+        Post createdPost = postService.CreateNewPost(autoPost);
+
+        createdPost.getImagesPath().add(findedEvent.getImagePath());
 
         return newSub;
     }
