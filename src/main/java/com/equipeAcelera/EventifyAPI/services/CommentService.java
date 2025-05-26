@@ -69,4 +69,16 @@ public class CommentService {
         return foundedComment;
     }
 
+    public void deleteComment(int userId, int commentId){
+        Comment foundedComment = FindCommentById(commentId);
+
+        if(foundedComment.getUserId() != userId){
+            throw new UnauthorizedFunctionAccessException("You cannot delete this post");
+        }
+
+        Post findedPost = postService.findPostById(foundedComment.getPostId());
+
+        commentList.remove(foundedComment);
+        findedPost.getCommentList().remove(foundedComment);
+    }
 }
