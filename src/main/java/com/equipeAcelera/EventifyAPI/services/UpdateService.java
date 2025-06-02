@@ -8,12 +8,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.event.UpdateOnlineEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.event.UpdatePresentialEventDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.post.UpdatePostDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.UpdateUserDataDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
 import com.equipeAcelera.EventifyAPI.models.Comments.Comment;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
+import com.equipeAcelera.EventifyAPI.models.Event.OnlineEvent;
 import com.equipeAcelera.EventifyAPI.models.Event.PresentialEvent;
 import com.equipeAcelera.EventifyAPI.models.Like.Like;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
@@ -147,6 +149,48 @@ public class UpdateService {
                 ((PresentialEvent) event).setLatitude(latitudeAndLongitude.get("latitude"));
                 ((PresentialEvent) event).setLongitude(latitudeAndLongitude.get("longitude"));
             }
+        }
+
+        return true;
+    }
+
+        public boolean updateOnlineEvent(UpdateOnlineEventDTO newEventData){
+        User organizerUser = userService.findUserById(newEventData.getOrganizerId());
+
+        Event event = eventService.getEventById(newEventData.getEventId());
+
+        if(organizerUser.getId() != event.getOrganizerId()){
+            throw new UnauthorizedFunctionAccessException("You cannot update someone event");
+        }
+
+        if(newEventData.getNewTitle() != null){
+            event.setTitle(newEventData.getNewTitle());
+        }
+
+        if(newEventData.getNewDescription() != null){
+            event.setDescription(newEventData.getNewDescription());
+        }
+
+        if(newEventData.getNewDate() != null){
+            event.setDate(newEventData.getNewDate());
+        }
+
+        if(newEventData.getNewHour() != null){
+            event.setHour(newEventData.getNewHour());
+        }
+
+        if(newEventData.getNewGuestLimit() > 0){
+            event.setGuestLimit(newEventData.getNewGuestLimit());
+        }
+
+        if(newEventData.getNewBannerImage() != null){
+            String imagePath =ImageUtils.saveEventBannerPic(newEventData.getNewBannerImage());
+
+            event.setImagePath(imagePath);
+        }
+
+        if(newEventData.getNewLink() != null){
+            ((OnlineEvent) event).setLink(newEventData.getNewLink());
         }
 
         return true;
