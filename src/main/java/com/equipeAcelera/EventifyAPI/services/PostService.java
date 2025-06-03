@@ -35,6 +35,7 @@ public class PostService {
         Post newPost = new Post(
             postList.size() + 1, 
             postData.getUserId(), 
+            findedUser.getProfilePicPath(),
             findedUser.getName(),
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 

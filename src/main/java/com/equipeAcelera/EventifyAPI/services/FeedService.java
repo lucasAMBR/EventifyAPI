@@ -14,16 +14,15 @@ public class FeedService {
     @Autowired
     UserService userService;
 
-    public List<Post> generatePopularFeed(){
+public List<Post> generatePopularFeed() {
+    List<Post> userFeed = PostService.postList.stream()
+        .sorted((post1, post2) -> Integer.compare(post2.getLikeList().size(), post1.getLikeList().size()))
+        .limit(100)
+        .collect(Collectors.toList());
 
-        List<Post> userFeed = PostService.postList.stream()
-            .sorted((post1, post2) -> Integer.compare(post1.getLikeList().size(), post2.getLikeList().size()))
-            .limit(100)
-            .collect(Collectors.toList());
+    return userFeed;
+}
 
-        
-        return userFeed;
-    }
 
     public List<Post> generateFollowingFeed(int id){
 

@@ -34,7 +34,8 @@ public class EventPostService {
 
         EventPost newPost = new EventPost(
             PostService.postList.size() + 1, 
-            postData.getUserId(), 
+            postData.getUserId(),
+            findedUser.getProfilePicPath(), 
             findedUser.getName(),
             postData.getContent(), 
             ImageUtils.savePostPics(postData.getPostImages()), 
