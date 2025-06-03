@@ -34,7 +34,8 @@ public class CommentService {
 
         Comment newComment = new Comment(
             commentList.size() + 1, 
-            findedUser.getId(), 
+            findedUser.getId(),
+            findedUser.getProfilePicPath(), 
             findedUser.getName(), 
             findedPost.getId(), 
             commentData.getContent(), 

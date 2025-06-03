@@ -22,48 +22,45 @@ public class LikeService {
     @Autowired
     PostService postService;
 
-    public Like addLike(int userId, int postId){
+public Like addLike(int userId, int postId) {
 
-        User findedUser = userService.findUserById(userId);
+    User findedUser = userService.findUserById(userId);
+    Post findedPost = postService.findPostById(postId);
 
-        Post findedPost = postService.findPostById(postId);
+    for (Like like : likeList) {
+        if (like.getUserId() == userId && like.getPostId() == postId) {
+            findedUser.setLikeList(
+                findedUser.getLikeList().stream()
+                    .filter(likeItem -> likeItem.getPostId() != postId || likeItem.getUserId() != userId)
+                    .collect(Collectors.toList())
+            );
 
-        for(Like like : likeList){         
-            if(like.getUserId() == userId && like.getPostId() == postId){
+            findedPost.setLikeList(
+                findedPost.getLikeList().stream()
+                    .filter(likeItem -> likeItem.getPostId() != postId || likeItem.getUserId() != userId)
+                    .collect(Collectors.toList())
+            );
 
-            
-                List<Like> newUserLikeList = findedUser.getLikeList()
-                .stream()
-                .filter(likeItem -> likeItem.getPostId() != like.getPostId())
-                .collect(Collectors.toList());
+            likeList.remove(like);
 
-                findedUser.setLikeList(newUserLikeList);
-
-                List<Like> newPostLikeList = findedPost.getLikeList().stream().filter(likeItem -> likeItem.getPostId() != like.getPostId()).collect(Collectors.toList());
-
-                findedPost.setLikeList(newPostLikeList);
-
-                likeList.remove(like);
-
-                return like;
-            }
+            return like;
         }
-
-        Like newLike = new Like(
-            likeList.size() + 1, 
-            userId, 
-            findedUser.getName(),
-            postId
-        );
-
-        findedUser.getLikeList().add(newLike);
-
-        findedPost.getLikeList().add(newLike);
-
-        likeList.add(newLike);
-
-        return newLike;
     }
+    
+    Like newLike = new Like(
+        likeList.size() + 1,
+        userId,
+        findedUser.getName(),
+        postId
+    );
+
+    findedUser.getLikeList().add(newLike);
+    findedPost.getLikeList().add(newLike);
+    likeList.add(newLike);
+
+    return newLike;
+}
+
 
     public Like FindLikeById(int id){
         for(Like like : likeList){

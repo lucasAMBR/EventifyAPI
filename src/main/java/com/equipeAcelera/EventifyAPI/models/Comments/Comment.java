@@ -5,14 +5,16 @@ import java.time.LocalDateTime;
 public class Comment {
     private int id;
     private int userId;
+    private String userProfilePic;
     private String userName;
     private int postId;
     private String content;
     private LocalDateTime date;
 
-    public Comment(int id, int userId, String username, int postId, String content, LocalDateTime date) {
+    public Comment(int id, int userId, String userProfilePic, String username, int postId, String content, LocalDateTime date) {
         this.id = id;
         this.userId = userId;
+        this.userProfilePic = userProfilePic;
         this.userName = username;
         this.postId = postId;
         this.content = content;
@@ -65,6 +67,14 @@ public class Comment {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserProfilePic() {
+        return userProfilePic;
+    }
+
+    public void setUserProfilePic(String userProfilePic) {
+        this.userProfilePic = userProfilePic;
     }
     
 }
