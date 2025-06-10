@@ -3,6 +3,7 @@ package com.equipeAcelera.EventifyAPI.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,17 @@ public class CommentService {
         }
 
         throw new DataNotFoundException("Not found");
+    }
+
+    public List<Comment> findAllCommentsByPostId(int postId){
+        List<Comment> foundCommentList = new ArrayList<>();
+
+        for (Comment comment : commentList) {
+            if(comment.getPostId() == postId){
+                foundCommentList.add(comment);
+            }
+        }
+        return foundCommentList.stream().sorted((c1, c2) -> c2.getDate().compareTo(c1.getDate())).collect(Collectors.toList());
     }
 
     public Comment UpdateComment(int id, UpdateCommentDTO newContent){
