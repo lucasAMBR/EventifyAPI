@@ -38,7 +38,7 @@ public class PostService {
             findedUser.getProfilePicPath(),
             findedUser.getName(),
             postData.getContent(), 
-            ImageUtils.savePostPics(postData.getPostImages()), 
+            postData.getPostImages() != null ? ImageUtils.savePostPics(postData.getPostImages()) : new ArrayList<>(), 
             new ArrayList<>(),
             new ArrayList<>(),
             LocalDateTime.now()

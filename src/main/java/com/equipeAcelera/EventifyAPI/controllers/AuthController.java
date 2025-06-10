@@ -75,7 +75,7 @@ public class AuthController {
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequestDTO request) {
         if (!passwordResetService.validateToken(request.getEmail(), request.getToken())) {
-            throw new InvalidArgumentException("Código inválido ou expirado");
+            throw new InvalidArgumentException("Código inválido ou expirado");      
         }
 
         User user = userService.findUserByEmail(request.getEmail());
