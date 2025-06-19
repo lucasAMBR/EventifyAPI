@@ -6,7 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.equipeAcelera.EventifyAPI.DTOs.user.ReducedUserDTO;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
+import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
+import com.equipeAcelera.EventifyAPI.models.User.User;
 
 @Service
 public class FeedService {
@@ -14,15 +17,57 @@ public class FeedService {
     @Autowired
     UserService userService;
 
-public List<Post> generatePopularFeed() {
-    List<Post> userFeed = PostService.postList.stream()
-        .sorted((post1, post2) -> Integer.compare(post2.getLikeList().size(), post1.getLikeList().size()))
-        .limit(100)
-        .collect(Collectors.toList());
+    public List<Post> generatePopularFeed() {
+        List<Post> userFeed = PostService.postList.stream()
+            .sorted((post1, post2) -> Integer.compare(post2.getLikeList().size(), post1.getLikeList().size()))
+            .limit(100)
+            .collect(Collectors.toList());
 
-    return userFeed;
-}
+        return userFeed;
+    }
 
+    public ReducedUserDTO getReducedUserById(int userId){
+        User user = userService.findUserById(userId);
+
+        ReducedUserDTO reducedUser = new ReducedUserDTO(
+            user.getId(), 
+            user.getProfilePicPath(), 
+            user.getName(), 
+            user instanceof NormalUser ? "DEAFULT" : "ORGANIZER", 
+            user.getFollowers().size(), 
+            user.getFollowing().size(), 
+            user.getPostList().size()
+        );
+
+        return reducedUser;
+    }
+
+    public List<ReducedUserDTO> generatePopularUsersBasedOnLoggedUser(int userId){
+        User loggedUser = userService.findUserById(userId);
+
+        List<User> followingList = loggedUser.getFollowing();
+
+        List<User> notFollowing = userService.viewUserList().stream()
+            .filter(user -> user.getId() != loggedUser.getId())
+            .filter(user -> !followingList.contains(user))
+            .sorted((u1, u2) -> Integer.compare(u2.getFollowers().size(), u1.getFollowers().size()))
+            .limit(3)
+            .collect(Collectors.toList());
+
+        return notFollowing.stream().map(user -> {
+            ReducedUserDTO reducedUser = new ReducedUserDTO(
+                user.getId(), 
+                user.getProfilePicPath(), 
+                user.getName(), 
+                user instanceof NormalUser ? "DEAFULT" : "ORGANIZER", 
+                user.getFollowers().size(), 
+                user.getFollowing().size(), 
+                user.getPostList().size()
+            );
+
+            return reducedUser;
+        }).toList();
+    }
 
     public List<Post> generateFollowingFeed(int id){
 
