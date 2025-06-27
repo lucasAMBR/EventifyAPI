@@ -29,7 +29,6 @@ public class EventService {
     @Autowired
     UserService userService;
 
-
     // O ENDEREÇO DEVE SER ENVIADO DA SEGUINTE MANEIRA: 
     // RUA, NUMERO, CIDADE, SIGLA DO ESTADO
     // EXEMPLO: Avenida Paulista, 1000, São Paulo, SP
@@ -99,21 +98,15 @@ public class EventService {
 
     // Cancela um evento e avisa os inscritos
     public void cancelEvent(int eventId){
-        Event findedEvent = getEventById(eventId);
+    Event findedEvent = getEventById(eventId);
+    List<Subscription> subsList = findedEvent.getSubscriptionList();
 
-        List<Subscription> subsList = findedEvent.getSubscriptionList();
+    for (Subscription sub : subsList) {
+        userService.removeSubscriptionFromUser(sub.getUserId(), sub.getEventId());
+    }
 
-        for(Subscription sub : subsList){
-            User findedUser = userService.findUserById(sub.getUserId());
-
-            ((NormalUser) findedUser).getSubscriptions().remove(sub);
-
-            // Inserir Aqui o email avisando do cancelamento do evento para todos os inscritos
-        }
-
-        findedEvent.setSubscriptionList(new ArrayList<>());
-
-        findedEvent.setActive(false);
+    findedEvent.setSubscriptionList(new ArrayList<>());
+    findedEvent.setActive(false);
     }
 
     // Lista todos os eventos de um usuario
@@ -156,12 +149,6 @@ public class EventService {
 
     //Lista todos os eventos no sistema
     public List<Event> getEventList(){
-        List<Event> allEventsList = new ArrayList<>();
-
-        for(Event event : eventList){
-            allEventsList.add(event);
-        }
-
-        return allEventsList;
+        return eventList;
     } 
 }

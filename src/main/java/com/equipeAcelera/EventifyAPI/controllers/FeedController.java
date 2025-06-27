@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.ReducedUserDTO;
+import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.services.FeedService;
 
@@ -37,6 +38,11 @@ public class FeedController {
     @GetMapping("/popular-users/{userId}")
     public ResponseEntity<List<ReducedUserDTO>> generatePopularUsers(@PathVariable int userId){
         return ResponseEntity.ok().body(feedService.generatePopularUsersBasedOnLoggedUser(userId));
+    }
+
+    @GetMapping("/popular/events/{userId}")
+    public ResponseEntity<List<Event>> getRecomendedEventsByUserId(@PathVariable int userId){
+        return ResponseEntity.ok().body(feedService.getSuggestedPopularEvents(userId));
     }
 
 }

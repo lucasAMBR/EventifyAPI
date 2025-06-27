@@ -45,7 +45,10 @@ public class SubscriptionService {
             userId, 
             findedUser.getName(), 
             eventId, 
-            findedEvent.getTitle(), 
+            findedEvent.getImagePath(),
+            findedEvent.getTitle(),
+            findedEvent.getDate(), 
+            findedEvent.getHour(),
             "ABSENT"
         );
 
@@ -104,6 +107,13 @@ public class SubscriptionService {
 
         return userSubscriptions;
     }
+
+    public void removeSubscription(int userId, int eventId) {
+        subscriptionList = subscriptionList.stream()
+            .filter(sub -> !(sub.getUserId() == userId && sub.getEventId() == eventId))
+            .collect(Collectors.toList());
+    }
+
 
     private String formatParticipantsList(List<Subscription> subscriptions) {
         StringBuilder sb = new StringBuilder("""

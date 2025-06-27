@@ -12,6 +12,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.user.UserDTO;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UserAlreadyExistException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.DataNotFoundException;
+import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.OrganizerUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -204,5 +205,32 @@ public class UserService {
 
         return newList;
     }
+
+public void removeSubscriptionFromUser(int userId, int eventId) {
+    User user = findUserById(userId);
+
+    if (user instanceof NormalUser normalUser) {
+        System.out.println("Antes: " + normalUser.getSubscriptions().size());
+
+        List<Subscription> updated = normalUser.getSubscriptions()
+            .stream()
+            .filter(sub -> sub.getEventId() != eventId)
+            .collect(Collectors.toList());
+
+        normalUser.setSubscriptions(updated);
+
+        System.out.println("Depois: " + normalUser.getSubscriptions().size());
+    }
+}
+
+public List<Subscription> listUserSubscriptions(int userId) {
+    User user = findUserById(userId);
+
+    if (user instanceof NormalUser normalUser) {
+        return normalUser.getSubscriptions();
+    }
+
+    throw new InvalidArgumentException("User with id " + userId + " is not a normal user or does not support subscriptions.");
+}
 
 }

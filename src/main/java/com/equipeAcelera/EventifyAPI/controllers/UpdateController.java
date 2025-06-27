@@ -11,7 +11,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.user.UpdateUserDataDTO;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
 
 @RestController
-@RequestMapping("/update")
+@RequestMapping("api/update")
 public class UpdateController {
     
     @Autowired

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.user.ReducedUserDTO;
+import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
@@ -16,6 +17,9 @@ public class FeedService {
     
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventService eventService;
 
     public List<Post> generatePopularFeed() {
         List<Post> userFeed = PostService.postList.stream()
@@ -40,6 +44,15 @@ public class FeedService {
         );
 
         return reducedUser;
+    }
+
+    public List<Event> getSuggestedPopularEvents(int userId){
+        return eventService.getEventList().stream()
+            .filter(event -> event.getSubscriptionList().stream().noneMatch(subs -> subs.getUserId() == userId))
+            .filter(event -> event.getSubscriptionList().size() < event.getGuestLimit())
+            .sorted((e1, e2) -> Integer.compare(e2.getSubscriptionList().size(), e1.getSubscriptionList().size()))
+            .limit(3)
+            .collect(Collectors.toList());
     }
 
     public List<ReducedUserDTO> generatePopularUsersBasedOnLoggedUser(int userId){

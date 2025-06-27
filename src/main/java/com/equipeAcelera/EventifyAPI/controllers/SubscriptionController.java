@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
 import com.equipeAcelera.EventifyAPI.services.SubscriptionService;
 import com.equipeAcelera.EventifyAPI.services.UpdateService;
+import com.equipeAcelera.EventifyAPI.services.UserService;
 
 @RestController
-@RequestMapping("/subscription")
+@RequestMapping("api/subscription")
 public class SubscriptionController {
     
     @Autowired
@@ -26,6 +27,9 @@ public class SubscriptionController {
 
     @Autowired
     UpdateService updateService;
+
+    @Autowired
+    UserService userService;
 
     // Inscreve um usuario em um evento
     @PostMapping("/create/{eventId}/{userId}")
@@ -45,7 +49,7 @@ public class SubscriptionController {
     // Lista Todas as incrições de um usuario
     @GetMapping("/list/user/{userId}")
     public ResponseEntity<List<Subscription>> listUserSubscriptions(@PathVariable int userId){
-        List<Subscription> subsList = subscriptionService.listSubscriptionsByUserId(userId);
+        List<Subscription> subsList = userService.listUserSubscriptions(userId);
 
         return ResponseEntity.ok().body(subsList);
     }
