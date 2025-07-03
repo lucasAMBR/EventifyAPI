@@ -96,4 +96,26 @@ public class FeedService {
         return postList;
     }
 
+    public List<ReducedUserDTO> memberListFromEvent(int eventId){
+        Event event = eventService.getEventById(eventId);
+
+        List<ReducedUserDTO> memberList = event.getSubscriptionList().stream()
+            .map(subs -> {
+                User user = userService.findUserById(subs.getUserId());
+
+                return new ReducedUserDTO(
+                    user.getId(), 
+                    user.getProfilePicPath(), 
+                    user.getName(), 
+                    user instanceof NormalUser ? "DEAFULT" : "ORGANIZER", 
+                    user.getFollowers().size(), 
+                    user.getFollowing().size(), 
+                    user.getPostList().size()
+                );
+            })
+            .collect(Collectors.toList());
+
+        return memberList;
+    }
+
 }

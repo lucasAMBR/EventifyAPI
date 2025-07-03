@@ -39,20 +39,14 @@ public class PostLikeService {
         return likedPosts;
     }
 
-    public List<Post> listEventPosts(int eventId){
-        List<Post> eventList = postService.listAllPosts();
+    public List<Post> listEventPosts(int eventId) {
+        return PostService.postList.stream()
+        .filter(post -> post instanceof EventPost) // garante que é um post de evento
+        .map(post -> (EventPost) post)
+        .filter(eventPost -> eventPost.getEventId() == eventId)
+        .sorted((a, b) -> b.getDate().compareTo(a.getDate())) // ordena do mais novo para o mais antigo
+        .collect(Collectors.toList());
+}
 
-        List<Post> eventPostList = new ArrayList<>();
-
-        for(Post post : eventList){
-            if(post instanceof EventPost){
-                if(((EventPost) post).getEventId() == eventId){
-                    eventPostList.add(post);
-                }
-            }
-        }
-
-        return eventPostList;
-    }
 
 }

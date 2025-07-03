@@ -38,7 +38,7 @@ public class EventPostService {
             findedUser.getProfilePicPath(), 
             findedUser.getName(),
             postData.getContent(), 
-            ImageUtils.savePostPics(postData.getPostImages()), 
+            postData.getPostImages() == null ? new ArrayList<>() : ImageUtils.savePostPics(postData.getPostImages()), 
             new ArrayList<>(),
             new ArrayList<>(),
             findedEvent.getId(),

@@ -45,4 +45,9 @@ public class FeedController {
         return ResponseEntity.ok().body(feedService.getSuggestedPopularEvents(userId));
     }
 
+    @GetMapping("/members/{eventId}")
+    public ResponseEntity<List<ReducedUserDTO>> getMembersFromEvent(@PathVariable int eventId){
+        return ResponseEntity.ok().body(feedService.memberListFromEvent(eventId));
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.equipeAcelera.EventifyAPI.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -120,6 +122,7 @@ public class EventService {
 
     public List<Event> getPopularEvents(){
         List<Event> popularEvents = eventList.stream()
+            .filter(event -> !event.getDate().isBefore(LocalDate.now()) && event.isActive())
             .sorted((event1, event2) -> Integer.compare(event2.getSubscriptionList().size(), event1.getSubscriptionList().size()))
             .limit(4)
             .collect(Collectors.toList());
@@ -148,7 +151,10 @@ public class EventService {
     }
 
     //Lista todos os eventos no sistema
-    public List<Event> getEventList(){
-        return eventList;
-    } 
+    public List<Event> getEventList() {
+        return eventList.stream()
+        .filter(event -> !event.getDate().isBefore(LocalDate.now())) // só eventos futuros ou de hoje
+        .sorted(Comparator.comparing(Event::getDate))
+        .collect(Collectors.toList());
+}
 }

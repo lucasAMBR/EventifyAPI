@@ -2,6 +2,7 @@ package com.equipeAcelera.EventifyAPI.services;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +52,14 @@ public class PostService {
         return newPost;
     }
 
+    // Lista todos os posts de um usuario
+    public List<Post> listPostsByUserId(int userId){
+        return postList.stream()
+            .filter(post -> post.getUserId() == userId)
+            .sorted(Comparator.comparing(Post::getDate).reversed())
+            .collect(Collectors.toList());
+    }
+
     // Acha um post pelo id
     public Post findPostById(int id){
         
@@ -63,12 +72,10 @@ public class PostService {
     }
 
     // Lista todos os posts no sistema
-    public List<Post> listAllPosts(){
-        
-        List<Post> finalPostList = postList.stream().map(post -> {
-            return post;
-        }).collect(Collectors.toList());
+    public List<Post> listAllPosts() {
+        return postList.stream()
+            .sorted(Comparator.comparing(Post::getDate).reversed())
+            .collect(Collectors.toList());
+}
 
-        return finalPostList;
-    }
 }

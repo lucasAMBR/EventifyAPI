@@ -21,7 +21,8 @@ public class FormatationUtils {
                     post.getUserId(), 
                     post.getUserName(), 
                     post.getContent(),
-                    post.getLikeList().size()
+                    post.getLikeList().size(),
+                    post.getCommentList().size()
                 );
                     
                 return reducedPost;
@@ -89,7 +90,8 @@ public class FormatationUtils {
                         post.getUserId(), 
                         post.getUserName(), 
                         post.getContent(),
-                        post.getLikeList().size()
+                        post.getLikeList().size(),
+                        post.getCommentList().size()
                     );
                     
                     return reducedPost;

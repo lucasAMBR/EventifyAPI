@@ -46,64 +46,59 @@ public class UpdateService {
 
     @Autowired 
     LikeService likeService;
+public void updateUserData(UpdateUserDataDTO userData) {
+    User findedUser = userService.findUserById(userData.getId());
 
-    public void updateUserData(UpdateUserDataDTO userData){
-        
-        User findedUser = userService.findUserById(userData.getId());
+    if (userData.getUserName() != null) {
+        findedUser.setName(userData.getUserName());
 
-        if(userData.getUserName() != null){
-            findedUser.setName(userData.getUserName());
-
-            for(Post post : postService.listAllPosts()){
-                if(post.getUserId() == findedUser.getId()){
-                    post.setUserName(userData.getUserName());
-                }
-            };
-
-            for(Event event : eventService.getEventList()){
-                if(event.getOrganizerId() == findedUser.getId()){
-                    event.setOrganizerName(userData.getUserName());;
-                }
-            }
-
-            for(Like like : likeService.listAllLikes()){
-                if(like.getUserId() == findedUser.getId()){
-                    like.setUserName(userData.getUserName());
-                }
-            }
-
-            for(Subscription subs : subscriptionService.listAllSubs()){
-                if(subs.getUserId() == findedUser.getId()){
-                    subs.setUserName(userData.getUserName());
-                }
-            }
-
-            for(Comment comment : CommentService.commentList){
-                if(comment.getUserId() == findedUser.getId()){
-                    comment.setUserName(findedUser.getName());
-                }
+        for (Post post : postService.listAllPosts()) {
+            if (post.getUserId() == findedUser.getId()) {
+                post.setUserName(userData.getUserName());
             }
         }
 
-        if(userData.getNewProfilePic() != null){
-            final String uploadDir = "src/main/resources/static/";
-
-            String newProfilePicPath = ImageUtils.saveProfilePic(userData.getNewProfilePic());
-
-            try{
-                Path filePath = Paths.get(uploadDir + findedUser.getProfilePicPath());
-                File file = filePath.toFile();
-
-                if(file.exists() && findedUser.getProfilePicPath() != "/uploads/profile_pic/default.png"){
-                    file.delete();
-                }
-            }catch(Exception e){
-                throw new RuntimeException(e);
+        for (Event event : eventService.getEventList()) {
+            if (event.getOrganizerId() == findedUser.getId()) {
+                event.setOrganizerName(userData.getUserName());
             }
+        }
 
-            findedUser.setProfilePicPath(newProfilePicPath);
+        for (Like like : likeService.listAllLikes()) {
+            if (like.getUserId() == findedUser.getId()) {
+                like.setUserName(userData.getUserName());
+            }
+        }
+
+        for (Subscription subs : subscriptionService.listAllSubs()) {
+            if (subs.getUserId() == findedUser.getId()) {
+                subs.setUserName(userData.getUserName());
+            }
+        }
+
+        for (Comment comment : CommentService.commentList) {
+            if (comment.getUserId() == findedUser.getId()) {
+                comment.setUserName(findedUser.getName());
+            }
         }
     }
+
+    if (userData.getNewProfilePic() != null) {
+        String newProfilePicPath = ImageUtils.saveProfilePic(userData.getNewProfilePic());
+        findedUser.setProfilePicPath(newProfilePicPath);
+
+        for (Post post : postService.listPostsByUserId(findedUser.getId())) {
+            post.setUserProfilePic(newProfilePicPath);
+        }
+
+        for (Comment comment : commentService.listAllComments()) {
+            if (comment.getUserId() == findedUser.getId()) {
+                comment.setUserProfilePic(newProfilePicPath);
+            }
+        }
+    }
+}
+
 
     public boolean updatePresentialEvent(UpdatePresentialEventDTO newEventData){
         User organizerUser = userService.findUserById(newEventData.getOrganizerId());

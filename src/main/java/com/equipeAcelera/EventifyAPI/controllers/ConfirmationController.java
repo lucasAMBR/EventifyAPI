@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.equipeAcelera.EventifyAPI.DTOs.ConfirmationCode.ConfirmationCode;
 import com.equipeAcelera.EventifyAPI.DTOs.ConfirmationCode.GenerateConfirmationDTO;
+import com.equipeAcelera.EventifyAPI.DTOs.ConfirmationCode.GenerateOnlineConfirmationDTO;
 import com.equipeAcelera.EventifyAPI.services.ConfirmationService;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -39,4 +40,15 @@ public class ConfirmationController {
             throw new RuntimeException("Cannot confirm your presence");
         }
     }
+
+    @PutMapping("confirm/online/{code}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ConfirmPresenceOnline(@PathVariable String code, @ModelAttribute GenerateOnlineConfirmationDTO confirmData) {
+        boolean isConfirmed = confirmationService.useOnlineConfirmationCode(confirmData.getEmail(), confirmData.getPassword(), code);
+
+        if(!isConfirmed){
+            throw new RuntimeException("Cannot confirm your presence");
+        }
+    }
+
 }

@@ -6,14 +6,16 @@ public class ReducedPostDTO {
     protected String userName;
     protected String content;
     protected int likes;
+    protected int comments;
     
     // Versão reduzida de um post para ser exibido na exibição de usuario
-    public ReducedPostDTO(int id, int userId, String userName, String content, int likes) {
+    public ReducedPostDTO(int id, int userId, String userName, String content, int likes, int comments) {
         this.id = id;
         this.userId = userId;
         this.userName = userName;
         this.content = content;
         this.likes = likes;
+        this.comments = comments;
     }
 
     public int getId() {
@@ -56,4 +58,11 @@ public class ReducedPostDTO {
         this.content = content;
     }
 
+    public int getComments() {
+        return comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
+    }
 }

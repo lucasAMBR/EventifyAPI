@@ -87,6 +87,14 @@ public class PostController {
         return ResponseEntity.ok().body(likedList);
     }
 
+    // Lista todos os posts de um usuario
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Post>> listAllPostsByUserId(@PathVariable int userId){
+        List<Post> postList = postService.listPostsByUserId(userId);
+
+        return ResponseEntity.ok().body(postList);
+    }
+
     // Lista todos os posts de um evento
     @GetMapping("/event/{eventId}")
     public ResponseEntity<List<Post>> listAllEventPostsByEventId(@PathVariable int eventId){

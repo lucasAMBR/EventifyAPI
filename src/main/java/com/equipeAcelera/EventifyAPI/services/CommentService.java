@@ -27,6 +27,10 @@ public class CommentService {
     @Autowired
     PostService postService;
 
+    public List<Comment> listAllComments(){
+        return commentList;
+    }
+
     public Comment CreateComment(CreateCommentDTO commentData){
         
         User findedUser = userService.findUserById(commentData.getUserId());

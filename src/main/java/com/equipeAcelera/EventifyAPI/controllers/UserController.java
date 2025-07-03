@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.equipeAcelera.EventifyAPI.DTOs.user.ReducedUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterNormalUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.RegisterOrganizerUserDTO;
 import com.equipeAcelera.EventifyAPI.DTOs.user.UserDTO;
@@ -62,10 +63,24 @@ public class UserController {
 
     // Lista todos os usuarios cadastrados (Apenas para fins de desenvolvimento, remover quando tiver tudo pronto)
    @GetMapping("/lista")
-    public ResponseEntity<List<User>> ListUsers(){
+    public ResponseEntity<List<ReducedUserDTO>> ListUsers(){
         List<User> userList = userService.viewUserList();
 
-        return ResponseEntity.ok().body(userList);
+        List<ReducedUserDTO> finalList = userList.stream().map(user -> {
+            ReducedUserDTO reduced = new ReducedUserDTO(
+                user.getId(), 
+                user.getProfilePicPath(), 
+                user.getName(), 
+                user instanceof NormalUser ? "DEFAULT" : "ORGANIZER", 
+                user.getFollowers().size(), 
+                user.getFollowing().size(), 
+                user.getPostList().size()
+            );
+
+            return reduced;
+        }).toList();
+
+        return ResponseEntity.ok().body(finalList);
     }
 
 }
