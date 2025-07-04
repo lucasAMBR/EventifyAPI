@@ -10,6 +10,7 @@ public class Post {
     protected int id;
     protected int userId;
     protected String userProfilePic;
+    protected String userType;
     protected String userName;
     protected String content;
     protected List<String> imagesPath;
@@ -17,10 +18,11 @@ public class Post {
     protected List<Comment> commentList;
     protected LocalDateTime date;
     
-    public Post(int id, int userId, String userProfilePic, String userName, String content, List<String> imagesPath, List<Like> likeList, List<Comment> commentList, LocalDateTime date) {
+    public Post(int id, int userId, String userProfilePic, String userType, String userName, String content, List<String> imagesPath, List<Like> likeList, List<Comment> commentList, LocalDateTime date) {
         this.id = id;
         this.userId = userId;
         this.userProfilePic = userProfilePic;
+        this.userType = userType;
         this.userName = userName;
         this.content = content;
         this.imagesPath = imagesPath;
@@ -92,5 +94,11 @@ public class Post {
         this.userProfilePic = userProfilePic;
     }
 
-    
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 }

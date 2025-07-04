@@ -1,16 +1,22 @@
 package com.equipeAcelera.EventifyAPI.services;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.equipeAcelera.EventifyAPI.DTOs.post.CreatePostDTO;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.SubscriptionConflictException;
 import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.UnauthorizedFunctionAccessException;
+import com.equipeAcelera.EventifyAPI.exceptions.PersonalExceptions.InvalidArgumentException;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
 import com.equipeAcelera.EventifyAPI.models.Subscription.Subscription;
@@ -38,7 +44,21 @@ public class SubscriptionService {
         
         User findedUser = userService.findUserById(userId);
 
+        if(!(findedUser instanceof NormalUser)){
+            throw new UnauthorizedFunctionAccessException("You cannot subscribe to an event, only normal users can do it!");
+        }
+
         Event findedEvent = eventService.getEventById(eventId);
+
+        for(Subscription sub : ((NormalUser) findedUser).getSubscriptions()){
+            Event event = eventService.getEventById(sub.getEventId());
+            if(event.getDate().isEqual(findedEvent.getDate())){
+                long diff = Duration.between(event.getHour(), findedEvent.getHour()).toHours();
+                if(diff < 2){
+                    throw new SubscriptionConflictException("You already have an event at this time!");
+                }
+            }
+        }
 
         Subscription newSub = new Subscription(
             subscriptionList.size() + 1, 
@@ -55,6 +75,10 @@ public class SubscriptionService {
         if(findedEvent.getSubscriptionList().size() < findedEvent.getGuestLimit()){
 
             findedEvent.getSubscriptionList().add(newSub);
+
+            if(!findedEvent.isActive()){
+                throw new InvalidArgumentException("Event is not active!");
+            }
 
             if(findedEvent.getSubscriptionList().size() == findedEvent.getGuestLimit()) {
                 String participantsList = formatParticipantsList(findedEvent.getSubscriptionList());
@@ -147,4 +171,21 @@ public class SubscriptionService {
         return sb.toString();
     }
 
+    @Scheduled(fixedRate = 60 * 1000)
+    public void cancelExpiredSubscriptions(){
+        for(Subscription sub : subscriptionList){
+            Event event = eventService.getEventById(sub.getEventId());
+
+            if(event.getDate().isEqual(LocalDate.now().minusDays(1))){
+                if(event.getHour().isBefore(LocalTime.now())){
+                    if(sub.getStatus().equals("ABSENT")){
+                        System.out.println("Removendo inscrições de membros ausentes do evento " + event.getTitle() + "!");
+                        removeSubscription(sub.getUserId(), sub.getEventId());
+                    }
+                }
+            }
+        }
+
+        System.out.println("Limpando inscrições de membros ausentes do expiradas!");
+    }
 }

@@ -14,6 +14,14 @@ public class AuthUtils {
         return false;
     }
 
+    public static boolean verifyExistentUserByCPF(List<User> userList, String cpf){
+        for(User user : userList){
+            if(user.getCpf().equals(cpf)){
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean verifyExistentUserById(List<User> userList, int id){
         for(User user : userList){
             if(user.getId() == id){

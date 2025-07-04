@@ -1,5 +1,6 @@
 package com.equipeAcelera.EventifyAPI.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,11 +44,19 @@ public class UserService {
         
         String formatedCPF = ValidationUtils.verifyAndFormatCPF(user.getCpf());
 
+        if(AuthUtils.verifyExistentUserByCPF(userList, formatedCPF)){
+            throw new UserAlreadyExistException("This CPF is already in use!");
+        }
+
         if(AuthUtils.verifyExistentUser(userList, user.getEmail())){
             throw new UserAlreadyExistException("This email is already in use!");
         }
 
-        String profilePicPath;
+        if(user.getBirth().isAfter(LocalDate.now().minusYears(14))){
+            throw new InvalidArgumentException("You must be at least 14 years old to register!");
+        }
+
+        String profilePicPath;  
 
         if(user.getProfilePic() == null){
             profilePicPath = "/uploads/profile_pic/default.png";

@@ -10,6 +10,7 @@ import com.equipeAcelera.EventifyAPI.DTOs.post.CreateEventPostDTO;
 import com.equipeAcelera.EventifyAPI.models.Event.Event;
 import com.equipeAcelera.EventifyAPI.models.Post.EventPost;
 import com.equipeAcelera.EventifyAPI.models.Post.Post;
+import com.equipeAcelera.EventifyAPI.models.User.NormalUser;
 import com.equipeAcelera.EventifyAPI.models.User.User;
 import com.equipeAcelera.EventifyAPI.utils.AuthUtils;
 import com.equipeAcelera.EventifyAPI.utils.ImageUtils;
@@ -36,6 +37,7 @@ public class EventPostService {
             PostService.postList.size() + 1, 
             postData.getUserId(),
             findedUser.getProfilePicPath(), 
+            findedUser instanceof NormalUser ? "NORMAL" : "ORGANIZER",
             findedUser.getName(),
             postData.getContent(), 
             postData.getPostImages() == null ? new ArrayList<>() : ImageUtils.savePostPics(postData.getPostImages()), 
