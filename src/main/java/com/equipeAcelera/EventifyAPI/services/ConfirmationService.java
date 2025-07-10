@@ -1,7 +1,6 @@
 package com.equipeAcelera.EventifyAPI.services;
 
 import java.security.SecureRandom;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,10 +21,8 @@ import com.equipeAcelera.EventifyAPI.utils.CryptoUtils;
 @Service
 public class ConfirmationService {
 
-    // Mapa: código → ID do evento (para busca rápida)
     private static Map<String, Integer> codeToEventId = new HashMap<>();
 
-    // Mapa: ID do evento → código de confirmação
     private static Map<Integer, ConfirmationCode> confirmationCodes = new HashMap<>();
 
     private static Set<String> auxCodeList = new HashSet<>();

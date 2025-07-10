@@ -1,8 +1,5 @@
 package com.equipeAcelera.EventifyAPI.services;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
